@@ -1,0 +1,602 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+import "google/protobuf/wrappers.proto";
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "v1/hub/main/device/common_device.proto";
+
+message FireProtect2Base {
+  CommonDevicePart common_part = 1000;
+
+  TempAlarm temp_alarm = 0x31;
+  TempHighDiffAlarm temp_high_diff_alarm = 0x32;
+  repeated IndicationStatus indication_status = 0x35;
+  repeated StateMuteAlarm state_mute_alarm = 0x36;
+  repeated DescriptionMalfunctionBitMask description_malfunction_bit_mask = 0x37;
+  int32 count_protect = 0x3A;
+  AlwaysActive always_active = 0x3D;
+  TempDiffAlarmEnable temp_diff_alarm_enable = 0x3E;
+  TempAlarmEnable temp_alarm_enable = 0x3F;
+  repeated BlinkingMode blinking_mode = 0x7B;
+  ExternalPower external_power = 0x7C;
+  google.protobuf.Int32Value iwh_signal_quality = 0x7F;
+
+  Subtype subtype = 0xC3;
+
+  oneof subtypes {
+    FireProtect2 fire_protect2 = 0x01;
+    FireProtect2Sb fire_protect2_sb = 0x02;
+    FireProtect2Plus fire_protect2_plus = 0x03;
+    FireProtect2PlusSb fire_protect2_plus_sb = 0x04;
+    FireProtect2Hrb fire_protect2_hrb = 0x05;
+    FireProtect2Hsb fire_protect2_hsb = 0x06;
+    FireProtect2Crb fire_protect2_crb = 0x07;
+    FireProtect2Csb fire_protect2_csb = 0x08;
+    FireProtect2Hcrb fire_protect2_hcrb = 0x09;
+    FireProtect2Hcsb fire_protect2_hcsb = 0x0A;
+    FireProtect2HsAc fire_protect_2_hs_ac = 0x0B;
+    FireProtect2HscAc fire_protect_2_hsc_ac = 0x0C;
+    FireProtect2CAc fire_protect_2_c_ac = 0x0D;
+    FireProtect2HAc fire_protect_2_h_ac = 0x0E;
+    FireProtect2HcAc fire_protect_2_hc_ac = 0x0F;
+    FireProtect2HsRbUl fire_protect_2_hs_rb_ul = 0x10;
+    FireProtect2HsSbUl fire_protect_2_hs_sb_ul = 0x11;
+    FireProtect2HsAcUl fire_protect_2_hs_ac_ul = 0x12;
+    FireProtect2HscRbUl fire_protect_2_hsc_rb_ul = 0x13;
+    FireProtect2HscSbUl fire_protect_2_hsc_sb_ul = 0x14;
+    FireProtect2HscAcUl fire_protect_2_hsc_ac_ul = 0x15;
+    FireProtect2HRbUl fire_protect_2_h_rb_ul = 0x16;
+    FireProtect2CRbUl fire_protect_2_c_rb_ul = 0x17;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0x00;
+    FIRE_PROTECT2 = 0x01;
+    FIRE_PROTECT2_SB = 0x02;
+    FIRE_PROTECT2_PLUS = 0x03;
+    FIRE_PROTECT2_PLUS_SB = 0x04;
+    FIRE_PROTECT2_HRB = 0x05;
+    FIRE_PROTECT2_HSB = 0x06;
+    FIRE_PROTECT2_CRB = 0x07;
+    FIRE_PROTECT2_CSB = 0x08;
+    FIRE_PROTECT2_HCRB = 0x09;
+    FIRE_PROTECT2_HCSB = 0x0A;
+    FIRE_PROTECT_2_HS_AC = 0x0B;
+    FIRE_PROTECT_2_HSC_AC = 0x0C;
+    FIRE_PROTECT_2_C_AC = 0x0D;
+    FIRE_PROTECT_2_H_AC = 0x0E;
+    FIRE_PROTECT_2_HC_AC = 0x0F;
+    FIRE_PROTECT_2_HS_RB_UL = 0x10;
+    FIRE_PROTECT_2_HS_SB_UL = 0x11;
+    FIRE_PROTECT_2_HS_AC_UL = 0x12;
+    FIRE_PROTECT_2_HSC_RB_UL = 0x13;
+    FIRE_PROTECT_2_HSC_SB_UL = 0x14;
+    FIRE_PROTECT_2_HSC_AC_UL = 0x15;
+    FIRE_PROTECT_2_H_RB_UL = 0x16;
+    FIRE_PROTECT_2_C_RB_UL = 0x17;
+  }
+
+  enum TempAlarm {
+    NO_TEMP_ALARM_INFO = 0;
+    TEMP_ALARM_NOT_DETECTED = 1;
+    TEMP_ALARM_DETECTED = 2;
+  }
+
+  enum TempHighDiffAlarm {
+    NO_TEMP_HIGH_DIFF_ALARM_INFO = 0;
+    TEMP_HIGH_DIFF_ALARM_NOT_DETECTED = 1;
+    TEMP_HIGH_DIFF_ALARM_DETECTED = 2;
+  }
+
+  enum IndicationStatus {
+    INDICATION_STATUS_NONE = 0;
+    INDICATION_STATUS_SMOKE = 11;
+    INDICATION_STATUS_TEMP = 12;
+    INDICATION_STATUS_TEMP_DIFF = 13;
+    INDICATION_STATUS_CO = 14;
+    INDICATION_STATUS_CO_CRITICAl = 15;
+    INDICATION_STATUS_SMOKE_CRITICAL = 16;
+
+    INDICATION_STATUS_SOURCE = 3;
+    INDICATION_STATUS_SYNC = 4;
+    INDICATION_STATUS_IWH_SOURCE = 5;
+    INDICATION_STATUS_RESERVED_6 = 6;
+    INDICATION_STATUS_NAN = 7;
+  }
+
+  enum StateMuteAlarm {
+    SMOKE_MUTE = 0;
+    TEMP_MUTE = 1;
+    TEMP_DIFF_MUTE = 2;
+    CO_MUTE = 3;
+    STATE_MUTE_ALARM_RESERVED_4 = 4;
+    STATE_MUTE_ALARM_RESERVED_5 = 5;
+    STATE_MUTE_ALARM_RESERVED_6 = 6;
+    STATE_MUTE_ALARM_RESERVED_7 = 7;
+  }
+
+  enum DescriptionMalfunctionBitMask {
+    CAMERA_DUSTY = 0;
+    CAMERA_COVER = 1;
+    HARDWARE_FAILURE = 2;
+  }
+
+  enum AlwaysActive {
+    NO_ALWAYS_ACTIVE_INFO = 0;
+    ALWAYS_ACTIVE_DISABLED = 1;
+    ALWAYS_ACTIVE_ENABLED = 2;
+  }
+
+  enum TempDiffAlarmEnable {
+    NO_TEMP_DIFF_ALARM_ENABLE_INFO = 0;
+    TEMP_DIFF_ALARM_DISABLED = 1;
+    TEMP_DIFF_ALARM_ENABLED = 2;
+  }
+
+  enum TempAlarmEnable {
+    NO_TEMP_ALARM_ENABLE_INFO = 0;
+    TEMP_ALARM_DISABLED = 1;
+    TEMP_ALARM_ENABLED = 2;
+  }
+
+  enum BlinkingMode {
+    BLINKING_MODE_UNSPECIFIED = 0;
+    BLINKING_MODE_POWER_BLINKING = 1;
+    BLINKING_MODE_CO_BLINKING = 2;
+  }
+
+  enum ExternalPower {
+    EXTERNAL_POWER_UNSPECIFIED = 0;
+    EXTERNAL_POWER_NOT_POWERED = 1;
+    EXTERNAL_POWER_POWERED = 2;
+  }
+
+  message FireProtect2 {
+    SmokeAlarm smoke_alarm = 0x40;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_SMOKE = 3;
+    }
+  }
+
+  message FireProtect2Sb {
+    SmokeAlarm smoke_alarm = 0x40;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_SMOKE = 3;
+    }
+  }
+
+  message FireProtect2Plus {
+    SmokeAlarm smoke_alarm = 0x40;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2PlusSb {
+    SmokeAlarm smoke_alarm = 0x40;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2Hrb {
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+    }
+  }
+
+  message FireProtect2Hsb {
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+    }
+  }
+
+  message FireProtect2Crb {
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2Csb {
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2Hcrb {
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2Hcsb {
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2HsAc {
+    SmokeAlarm smoke_alarm = 0x40;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_SMOKE = 3;
+    }
+  }
+
+  message FireProtect2HscAc {
+    SmokeAlarm smoke_alarm = 0x40;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2CAc {
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2HAc {
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+    }
+  }
+
+  message FireProtect2HcAc {
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      SIREN_TRIGGER_TEMPERATURE_DIFF = 2;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2HsRbUl {
+    SmokeAlarm smoke_alarm = 0x40;
+    CriticalSmokeAlarm critical_smoke_alarm = 0x49;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+    SilentSmokeAlarm silent_smoke_alarm = 0x4A;
+    SilentCriticalSmokeAlarm silent_critical_smoke_alarm = 0x4B;
+    BukhoorEnabled bukhoor_enabled = 0x4C;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      reserved 2; // removed from hts for UL https://ajaxsystems.atlassian.net/browse/FS-839, is hidden in apps
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CRITICAL_SMOKE = 6;
+    }
+  }
+
+  message FireProtect2HsSbUl {
+    SmokeAlarm smoke_alarm = 0x40;
+    CriticalSmokeAlarm critical_smoke_alarm = 0x49;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+    SilentSmokeAlarm silent_smoke_alarm = 0x4A;
+    SilentCriticalSmokeAlarm silent_critical_smoke_alarm = 0x4B;
+    BukhoorEnabled bukhoor_enabled = 0x4C;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      reserved 2; // removed from hts for UL https://ajaxsystems.atlassian.net/browse/FS-839, is hidden in apps
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CRITICAL_SMOKE = 6;
+    }
+  }
+
+  message FireProtect2HsAcUl {
+    SmokeAlarm smoke_alarm = 0x40;
+    CriticalSmokeAlarm critical_smoke_alarm = 0x49;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+    SilentSmokeAlarm silent_smoke_alarm = 0x4A;
+    SilentCriticalSmokeAlarm silent_critical_smoke_alarm = 0x4B;
+    BukhoorEnabled bukhoor_enabled = 0x4C;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      reserved 2; // removed from hts for UL https://ajaxsystems.atlassian.net/browse/FS-839, is hidden in apps
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CRITICAL_SMOKE = 6;
+    }
+  }
+
+  message FireProtect2HscRbUl {
+    SmokeAlarm smoke_alarm = 0x40;
+    CriticalSmokeAlarm critical_smoke_alarm = 0x49;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+    SilentSmokeAlarm silent_smoke_alarm = 0x4A;
+    SilentCriticalSmokeAlarm silent_critical_smoke_alarm = 0x4B;
+    BukhoorEnabled bukhoor_enabled = 0x4C;
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      reserved 2; // removed from hts for UL https://ajaxsystems.atlassian.net/browse/FS-839, is hidden in apps
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+      SIREN_TRIGGER_CRITICAL_SMOKE = 6;
+    }
+  }
+
+  message FireProtect2HscSbUl {
+    SmokeAlarm smoke_alarm = 0x40;
+    CriticalSmokeAlarm critical_smoke_alarm = 0x49;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+    SilentSmokeAlarm silent_smoke_alarm = 0x4A;
+    SilentCriticalSmokeAlarm silent_critical_smoke_alarm = 0x4B;
+    BukhoorEnabled bukhoor_enabled = 0x4C;
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      reserved 2; // removed from hts for UL https://ajaxsystems.atlassian.net/browse/FS-839, is hidden in apps
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+      SIREN_TRIGGER_CRITICAL_SMOKE = 6;
+    }
+  }
+
+  message FireProtect2HscAcUl {
+    SmokeAlarm smoke_alarm = 0x40;
+    CriticalSmokeAlarm critical_smoke_alarm = 0x49;
+    SteamAlarm steam_alarm = 0x41;
+    repeated ConfigSmokeChamber config_smoke_chamber = 0x43;
+    SilentSmokeAlarm silent_smoke_alarm = 0x4A;
+    SilentCriticalSmokeAlarm silent_critical_smoke_alarm = 0x4B;
+    BukhoorEnabled bukhoor_enabled = 0x4C;
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      reserved 2; // removed from hts for UL https://ajaxsystems.atlassian.net/browse/FS-839, is hidden in apps
+      SIREN_TRIGGER_SMOKE = 3;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+      SIREN_TRIGGER_CRITICAL_SMOKE = 6;
+    }
+  }
+
+  message FireProtect2CRbUl {
+
+    CoAlarm co_alarm = 0x44;
+    CriticalCoAlarm critical_co_alarm = 0x45;
+    CoAlarmEnable co_alarm_enable = 0x47;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_CO = 4;
+      SIREN_TRIGGER_CCO = 5;
+    }
+  }
+
+  message FireProtect2HRbUl {
+    repeated SirenTrigger siren_triggers = 0x2E;
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_TEMPERATURE = 1;
+      reserved 2; // removed from hts for UL https://ajaxsystems.atlassian.net/browse/FS-839, is hidden in apps
+    }
+  }
+
+  enum SmokeAlarm {
+    NO_SMOKE_ALARM_INFO = 0;
+    SMOKE_ALARM_NOT_DETECTED = 1;
+    SMOKE_ALARM_DETECTED = 2;
+  }
+
+  enum CriticalSmokeAlarm {
+    CRITICAL_SMOKE_ALARM_UNSPECIFIED = 0;
+    CRITICAL_SMOKE_ALARM_NOT_DETECTED = 1;
+    CRITICAL_SMOKE_ALARM_DETECTED = 2;
+  }
+
+  enum SteamAlarm {
+    NO_STEAM_ALARM_INFO = 0;
+    STEAM_ALARM_NOT_DETECTED = 1;
+    STEAM_ALARM_DETECTED = 2;
+  }
+
+  enum ConfigSmokeChamber {
+    SMOKE_CHAMBER_ENABLE = 0;
+    STEAM_DETECT_ENABLE = 1;
+  }
+
+  enum CoAlarm {
+    NO_CO_ALARM_INFO = 0;
+    CO_ALARM_NOT_DETECTED = 1;
+    CO_ALARM_DETECTED = 2;
+  }
+
+  enum CriticalCoAlarm {
+    NO_CRITICAL_CO_ALARM = 0;
+    CRITICAL_CO_NOT_DETECTED = 1;
+    CRITICAL_CO_DETECTED = 2;
+  }
+
+  enum CoAlarmEnable {
+    NO_CO_ALARM_ENABLE_INFO = 0;
+    CO_ALARM_DISABLED = 1;
+    CO_ALARM_ENABLED = 2;
+  }
+
+  enum SilentSmokeAlarm {
+    SILENT_SMOKE_ALARM_UNSPECIFIED = 0;
+    SILENT_SMOKE_ALARM_NOT_DETECTED = 1;
+    SILENT_SMOKE_ALARM_DETECTED = 2;
+  }
+
+  enum SilentCriticalSmokeAlarm {
+    SILENT_CRITICAL_SMOKE_ALARM_UNSPECIFIED = 0;
+    SILENT_CRITICAL_SMOKE_ALARM_NOT_DETECTED = 1;
+    SILENT_CRITICAL_SMOKE_ALARM_DETECTED = 2;
+  }
+
+  enum BukhoorEnabled {
+    BUKHOOR_ENABLED_UNSPECIFIED = 0;
+    BUKHOOR_ENABLED_DISABLED = 1;
+    BUKHOOR_ENABLED_ENABLED = 2;
+  }
+}

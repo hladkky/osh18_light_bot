@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package systems.ajax.api.desktop.v2.common.video.privacy;
+
+import "google/protobuf/timestamp.proto";
+import "v2/common/video/privacy/channel_permission.proto";
+
+option java_multiple_files = true;
+option java_package = "systems.ajax.api.desktop.v2.common.video.privacy";
+
+/**
+This model holds all permissions for a single video edge channel.
+ */
+message ChannelPermissions {
+  string channel_id = 1;
+
+  // Permissions which are currently active for this channel
+  ActiveChannelPermissions active = 2;
+
+  // Permissions which were granted to this channel (either explicitly by some user, or
+  // automatically based on some policy). Channel permissions can be granted in such a way,
+  // that they allow access only under some condition (policy), so granted permissions
+  // are not always active.
+  GrantedChannelPermissions granted = 3;
+
+  message ActiveChannelPermissions {
+    repeated ChannelPermission permissions = 1;
+  }
+
+  message GrantedChannelPermissions {
+    repeated ChannelPermission permissions = 1;
+
+    ChannelPermissionType type = 2;
+
+    // [optional] set only if permission type is TEMPORARY
+    google.protobuf.Timestamp expire_at = 3;
+
+    enum ChannelPermissionType {
+      CHANNEL_PERMISSION_TYPE_UNSPECIFIED = 0;
+      CHANNEL_PERMISSION_TYPE_ALWAYS = 1;
+      CHANNEL_PERMISSION_TYPE_WHEN_ARMED = 2;
+      CHANNEL_PERMISSION_TYPE_AFTER_ALARM = 3;
+      CHANNEL_PERMISSION_TYPE_TEMPORARY = 4;
+    }
+  }
+}

@@ -1,0 +1,247 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+import "v1/hub/main/device/common_device.proto";
+
+message SocketBase {
+  CommonDevicePart common_part = 1000;
+
+  repeated ChannelState channel_status = 0x31;
+  ChannelMode channel_mode = 0x32;
+  ChannelNormalState channel_normal_state = 0x33;
+  int32 impulse_duration = 0x34;
+  bool voltage_protection_off = 0x35;
+  int32 current_protection_threshold = 0x36;
+  repeated ArmingDisarmingAction arming_disarming_actions = 0x38;
+  google.protobuf.BoolValue voltage_low = 0x39;
+  google.protobuf.BoolValue voltage_high = 0x3A;
+  google.protobuf.BoolValue current_limit = 0x3B;
+  google.protobuf.BoolValue temperature_high = 0x3C;
+  google.protobuf.BoolValue relay_stuck = 0x3D;
+  int32 count_protect = 0x3E;
+  repeated EventSettings event_settings = 0x53;
+  SignalQuality data_channel_signal_quality = 0x5F;
+  DataChannelOk data_channel_ok = 0x63;
+
+  Subtype subtype = 0xC3;
+  oneof subtypes {
+    TypeG type_g = 1;
+    TypeGPlus type_g_plus = 2;
+    OutletTypeF outlet_type_f = 3;
+    OutletTypeE outlet_type_e = 4;
+    TypeB type_b = 5;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0;
+    TYPE_G = 1;
+    TYPE_G_PLUS = 2;
+    OUTLET_TYPE_F = 3;
+    OUTLET_TYPE_E = 4;
+    TYPE_B = 5;
+  }
+
+  enum ChannelState {
+    CHANNEL_1_ON = 0;
+    CHANNEL_2_ON = 1;
+  }
+
+  enum ChannelMode {
+    NO_CHANNEL_MODE = 0;
+    BISTABLE = 1;
+    IMPULSE = 2;
+  }
+
+  enum ChannelNormalState {
+    NO_CHANNEL_NORMAL_STATE = 0;
+    NORMALLY_OPEN = 1;
+    NORMALLY_CLOSED = 2;
+  }
+
+  enum ArmingDisarmingAction {
+    NO_ARMING_DISARMING_ACTIONS = 0;
+    TURN_ON_ON_ARMING = 1;
+    TURN_OFF_ON_ARMING = 2;
+    TURN_ON_ON_DISARMING = 3;
+    TURN_OFF_ON_DISARMING = 4;
+  }
+
+  enum EventSettings {
+    EVENT_SETTINGS_UNSPECIFIED = 0;
+    EVENT_SETTINGS_EVENT_BY_USER_EN = 1;
+    EVENT_SETTINGS_EVENT_BY_SCE_EN = 2;
+    EVENT_SETTINGS_EVENT_CONNECTION_LOST_IGNORE = 3;
+  }
+
+  enum SignalQuality {
+    SIGNAL_QUALITY_UNSPECIFIED = 0;
+    SIGNAL_QUALITY_VERY_LOW = 1;
+    SIGNAL_QUALITY_LOW = 2;
+    SIGNAL_QUALITY_MEDIUM = 3;
+    SIGNAL_QUALITY_HIGH = 4;
+  }
+
+  enum DataChannelOk {
+    DATA_CHANNEL_UNSPECIFIED = 0;
+    DATA_CHANNEL_NOT_OK = 1;
+    DATA_CHANNEL_OK = 2;
+  }
+
+  message TypeG {
+    google.protobuf.Int32Value power = 0x3F;
+    google.protobuf.Int32Value power_counter = 0x40;
+    google.protobuf.Int32Value current = 0x41;
+    google.protobuf.Int32Value voltage = 0x42;
+    int32 indication_brightness = 0x43;
+    IndicationMode indication_mode = 0x44;
+    EnergyCounterAveraging energy_counter_averaging = 0x45;
+    google.protobuf.Timestamp last_energy_counter_reset = 0x47;
+
+    enum IndicationMode {
+      NO_INDICATION_MODE_INFO = 0;
+      DISABLE = 1;
+      ENABLE = 2;
+      ENABLE_WHEN_ACTIVE = 3;
+    }
+
+    enum EnergyCounterAveraging {
+      NO_ENERGY_COUNTER_AVERAGING_INFO = 0;
+      ON = 1;
+      OFF = 2;
+    }
+  }
+
+  message TypeGPlus {
+    google.protobuf.Int32Value power = 0x3F;
+    google.protobuf.Int32Value power_counter = 0x40;
+    google.protobuf.Int32Value current = 0x41;
+    google.protobuf.Int32Value voltage = 0x42;
+    int32 indication_brightness = 0x43;
+    IndicationMode indication_mode = 0x44;
+    EnergyCounterAveraging energy_counter_averaging = 0x45;
+    google.protobuf.Timestamp last_energy_counter_reset = 0x47;
+    ArcFault arc_fault = 0x4A;
+    ArcFaultDetect arc_fault_detect = 0x4B;
+
+    enum IndicationMode {
+      NO_INDICATION_MODE_INFO = 0;
+      DISABLE = 1;
+      ENABLE = 2;
+      ENABLE_WHEN_ACTIVE = 3;
+    }
+
+    enum EnergyCounterAveraging {
+      NO_ENERGY_COUNTER_AVERAGING_INFO = 0;
+      ON = 1;
+      OFF = 2;
+    }
+
+    enum ArcFault {
+      NO_ARC_FAULT_INFO = 0;
+      ARC_FAULT_NOT_DETECTED = 1;
+      ARC_FAULT_DETECTED = 2;
+    }
+
+    enum ArcFaultDetect {
+      NO_ARC_FAULT_DETECT_INFO = 0;
+      ARC_FAULT_DETECT_DISABLED = 1;
+      ARC_FAULT_DETECT_ENABLED = 2;
+    }
+  }
+
+  message OutletTypeF {
+    OutletTypeEPart type_e_part = 1;
+  }
+
+  message OutletTypeE {
+    OutletTypeEPart type_e_part = 1;
+  }
+
+  message OutletTypeEPart {
+    google.protobuf.Int32Value power = 0x3F;
+    google.protobuf.Int32Value power_counter = 0x40;
+    google.protobuf.Int32Value current = 0x41;
+    google.protobuf.Int32Value voltage = 0x42;
+    int32 indication_brightness = 0x43;
+    IndicationMode indication_mode = 0x44;
+    EnergyCounterAveraging energy_counter_averaging = 0x45;
+    google.protobuf.Timestamp last_energy_counter_reset = 0x47;
+    LedFrameControl led_frame_control = 0x4A;
+    SensButtonControl sens_button_control = 0x4B;
+    PanelColor panel_color = 0x80;
+    google.protobuf.Int32Value auto_off_time = 0x81;
+
+    enum IndicationMode {
+      INDICATION_MODE_UNSPECIFIED = 0;
+      INDICATION_MODE_DISABLE = 1;
+      INDICATION_MODE_ENABLE = 2;
+      INDICATION_MODE_ENABLE_WHEN_ACTIVE = 3;
+    }
+
+    enum EnergyCounterAveraging {
+      ENERGY_COUNTER_AVERAGING_UNSPECIFIED = 0;
+      ENERGY_COUNTER_AVERAGING_ON = 1;
+      ENERGY_COUNTER_AVERAGING_OFF = 2;
+    }
+
+    enum LedFrameControl{
+      LED_FRAME_CONTROL_UNSPECIFIED = 0;
+      LED_FRAME_CONTROL_OFF = 1;
+      LED_FRAME_CONTROL_ON = 2;
+    }
+
+    enum SensButtonControl{
+      SENS_BUTTON_CONTROL_UNSPECIFIED = 0;
+      SENS_BUTTON_CONTROL_OFF = 1;
+      SENS_BUTTON_CONTROL_ON = 2;
+    }
+
+    enum PanelColor {
+      PANEL_COLOR_UNSPECIFIED = 0;
+      PANEL_COLOR_WHITE = 0x01;
+      PANEL_COLOR_BLACK = 0x02;
+      PANEL_COLOR_FOG = 0x03;
+      PANEL_COLOR_GREY = 0x04;
+      PANEL_COLOR_GRAPHITE = 0x05;
+      PANEL_COLOR_IVORY = 0x06;
+      PANEL_COLOR_OYSTER = 0x07;
+      PANEL_COLOR_OLIVE = 0x08;
+    }
+  }
+
+  message TypeB {
+    TypeG type_g_part = 1;
+    PowerSupplyStandard power_supply_standard = 0x4A;
+
+    message PowerSupplyStandard {
+      VoltageStandard voltage_standard = 1;
+      FrequencyStandard frequency_standard = 2;
+
+      enum VoltageStandard{
+        VOLTAGE_STANDARD_UNSPECIFIED = 0;
+        VOLTAGE_STANDARD_UNDEFINED = 1;
+        VOLTAGE_STANDARD_100V = 2;
+        VOLTAGE_STANDARD_110V = 3;
+        VOLTAGE_STANDARD_115V = 4;
+        VOLTAGE_STANDARD_120V = 5;
+        VOLTAGE_STANDARD_127V = 6;
+        VOLTAGE_STANDARD_220V = 7;
+        VOLTAGE_STANDARD_230V = 8;
+        VOLTAGE_STANDARD_240V = 9;
+      }
+
+      enum FrequencyStandard{
+        FREQUENCY_STANDARD_UNSPECIFIED = 0;
+        FREQUENCY_STANDARD_UNDEFINED = 1;
+        FREQUENCY_STANDARD_50HZ = 2;
+        FREQUENCY_STANDARD_60HZ = 3;
+      }
+    }
+  }
+}

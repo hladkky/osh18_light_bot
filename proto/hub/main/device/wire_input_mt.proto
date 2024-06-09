@@ -1,0 +1,249 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+
+import "v1/hub/main/device/common_device.proto";
+
+message WireInputMt {
+  ///////////////////////////////
+  // Common settings and statuses
+  ///////////////////////////////
+  CommonDevicePart common_part = 1000;
+  repeated SirenTrigger siren_triggers = 0x2E;
+
+  ///////////////////////////////
+  // General settings and statues
+  ///////////////////////////////
+  ExternalContactMode external_contact_mode = 0x31;
+  ExternalContactDisruptionState external_contact_broken = 0x34;
+  InputType input_type = 0x35;
+  ReactionTimeMillis reaction_time = 0x3B;
+  google.protobuf.Int32Value assigned_mtr = 0x3C;
+  int32 fact_resistance = 0x3E;
+  int32 fact_resistance_high_byte = 0x49;
+  CustomAlarmType custom_alarm = 0x3F;
+  repeated ChimeTrigger chime_triggers = 0x45;
+  int32 chime_signal = 0x46;
+  SensorType sensor_type = 0x48;
+  int32 measure_timeout = 0x59;
+
+  ////////////////////////////////////
+  // S1 Endpoint (prev. Tamper or EPT)
+  ////////////////////////////////////
+  ExternalContactAlarmMode external_contact_alarm_mode_S1 = 0x53;
+  ExternalContactState external_contact_state_S1 = 0x54;
+  int32 input_resistance_S1 = 0x56;
+  GeneralCustomAlarmType custom_alarm_S1 = 0x57;
+  bool always_active_S1 = 0x58;
+  int64 external_contact_scenario_bits_S1 = 0x7C;
+
+  ///////////////////////////////////
+  // S2 Endpoint (prev. Alarm or EPA)
+  ///////////////////////////////////
+  ExternalContactStateMode external_contact_state_mode_S2 = 0x4A;
+  ExternalContactAlarmMode external_contact_alarm_mode = 0x32;
+  ExternalContactState external_contact_state = 0x33;
+  int32 input_resistance = 0x3D;
+  GeneralCustomAlarmType custom_alarm_S2 = 0x47;
+  bool alwaysActive = 0x40;
+  int64 external_contact_scenario_bits = 0x70;
+
+  /////////////////////////////////////////
+  // S3 Endpoint (prev. Malfunction or EPM)
+  /////////////////////////////////////////
+  ExternalContactStateMode external_contact_state_mode_S3 = 0x4B;
+  ExternalContactAlarmMode external_contact_alarm_mode_S3 = 0x4C;
+  ExternalContactState external_contact_state_S3 = 0x4D;
+  int32 input_resistance_S3 = 0x4F;
+  GeneralCustomAlarmType custom_alarm_S3 = 0x51;
+  bool always_active_S3 = 0x52;
+  int64 external_contact_scenario_bits_S3 = 0x76;
+  int32 assigned_keyarm_id_s2 = 0x63;
+  ExtContactStateS2Silenced ext_contact_state_s2_silenced = 0x64;
+  ExtContactStateS3Silenced ext_contact_state_s3_silenced = 0x65;
+  ExtContactStateS1Silenced ext_contact_state_s1_silenced = 0x66;
+  repeated FPBukhoorEnabled fp_bukhoor_enabled = 0x67;
+  repeated ExternalContactEventS2 external_contact_events_s2 = 0x7E;
+
+  // Doesn't need now. But maybe will be used in the future
+  reserved "assigned_keyarm_id_s3";
+
+  Subtype subtype = 0xC3;
+
+  enum ExternalContactMode {
+    NO_EXTERNAL_CONTACT_MODE_INFO = 0;
+    DISABLED = 1;
+    NORMALLY_OPEN = 2;
+    NORMALLY_CLOSED = 3;
+    NORMALLY_CLOSED_R = 4;
+    NORMALLY_OPEN_R = 5;
+  }
+
+  enum ExternalContactAlarmMode {
+    NO_EXTERNAL_CONTACT_ALARM_MODE_INFO = 0;
+    BISTABLE = 1;
+    IMPULSE = 2;
+  }
+
+  enum ExternalContactState {
+    NO_EXTERNAL_CONTACT_STATE = 0;
+    CONTACT_DISRUPTED = 1;
+    CONTACT_NORMAL = 2;
+    CONTACT_NOT_AVAILABLE = 3;
+  }
+
+  enum ExternalContactDisruptionState {
+    NO_EXTERNAL_CONTACT_DISRUPTION_STATE = 0;
+    CONTACT_DISRUPTION_NORMAL = 1;
+    CONTACT_DISRUPTION_BROKEN = 2;
+    CONTACT_DISRUPTION_NOT_AVAILABLE = 3;
+  }
+
+  enum InputType {
+    NO_INPUT_TYPE = 0;
+    DEVICE = 1;
+    TAMPER = 2;
+  }
+
+  enum ReactionTimeMillis {
+    NO_REACTION_TIME = 0;
+    _20 = 1;
+    _100 = 2;
+    _1000 = 3;
+  }
+
+  enum CustomAlarmType {
+    NO_CUSTOM_ALARM_TYPE = 0;
+    BURGLARY = 1;
+    FIRE = 2;
+    MEDICAL = 3;
+    PANIC = 4;
+    GAS = 5;
+  }
+
+  enum SirenTrigger {
+    NO_SIREN_TRIGGER_INFO = 0;
+    EXTRA_CONTACT_S2 = 1;
+    SHORT_CIRCUIT = 2;
+    EXTRA_CONTACT_S1 = 3;
+    EXTRA_CONTACT_S3 = 4;
+  }
+
+  enum ChimeTrigger {
+    NO_CHIME_TRIGGER_INFO = 0;
+    CHIME_EXTRA_CONTACT_S2 = 1;
+    CHIME_EXTRA_CONTACT_S1 = 2;
+    CHIME_EXTRA_CONTACT_S3 = 3;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0;
+    SUBTYPE_WIRE_INPUT_RS = 1;
+  }
+
+  enum SensorType {
+    NO_SENSOR_TYPE_INFO = 0;
+    DISABLE = 1;
+    WITHOUT_EOL = 2;
+    EOL = 3;
+    TWO_EOL = 4;
+    THREE_EOL = 5;
+    ROLLER_SHUTTER = 6;
+  }
+
+  enum ExternalContactStateMode {
+    NO_EXTERNAL_CONTACT_STATE_MODE = 0;
+    NO = 1;
+    NC = 2;
+  }
+
+  enum GeneralCustomAlarmType {
+    NO_GENERAL_CUSTOM_ALARM_TYPE = 0;
+    BURGLARY_ALARM = 1;
+    FIRE_ALARM = 2;
+    MEDICAL_ALARM = 3;
+    PANIC_ALARM = 4;
+    GAS_ALARM = 5;
+    TAMPER_ALARM = 6;
+    MALFUNCTION_ALARM = 7;
+    LEAK_ALARM = 8;
+    SERVICE_EVENT = 9;
+    KEYARM = 10;
+    GLASS_BREAK_ALARM = 12;
+    HIGH_TEMPERATURE_ALARM = 13;
+    LOW_TEMPERATURE_ALARM = 14;
+    MASKING_ALARM = 15;
+    DURESS_CODE_ALARM = 16;
+    SEISMIC_ALARM = 17;
+    BLOCKING_ELEMENT = 18;
+    BOLT_SWITCH_CONTACT = 19;
+  }
+
+  oneof subtypes {
+    WireInputRs wire_input_rs = 0x01;
+  }
+
+  message WireInputRs {
+    RollerShutterOnline roller_shutter_online = 0x82;
+    int32 count_period = 0x84;
+    int32 count_threshold = 0x85;
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_EXTRA_CONTACT_S1 = 1;
+      SIREN_TRIGGER_EXTRA_CONTACT_S2 = 2;
+      SIREN_TRIGGER_EXTRA_CONTACT_S3 = 3;
+      SIREN_TRIGGER_SHORT_CIRCUIT = 4;
+      SIREN_TRIGGER_SHUTTER_ALARM = 5;
+      SIREN_TRIGGER_SHUTTER_ONLINE = 6;
+    }
+  }
+
+  enum RollerShutterOnline {
+    ROLLER_SHUTTER_ONLINE_UNSPECIFIED = 0;
+    ROLLER_SHUTTER_ONLINE_CUT_OFF = 1;
+    ROLLER_SHUTTER_ONLINE_IN_TOUCH = 2;
+  }
+
+  enum ExtContactStateS2Silenced {
+    EXT_CONTACT_STATE_S2_SILENCED_UNSPECIFIED = 0;
+    EXT_CONTACT_STATE_S2_SILENCED_VIOLATED = 1;
+    EXT_CONTACT_STATE_S2_SILENCED_NORM = 2;
+  }
+
+  enum ExtContactStateS3Silenced {
+    EXT_CONTACT_STATE_S3_SILENCED_UNSPECIFIED = 0;
+    EXT_CONTACT_STATE_S3_SILENCED_VIOLATED = 1;
+    EXT_CONTACT_STATE_S3_SILENCED_NORM = 2;
+  }
+
+  enum ExtContactStateS1Silenced {
+    EXT_CONTACT_STATE_S1_SILENCED_UNSPECIFIED = 0;
+    EXT_CONTACT_STATE_S1_SILENCED_VIOLATED = 1;
+    EXT_CONTACT_STATE_S1_SILENCED_NORM = 2;
+  }
+
+  enum FPBukhoorEnabled {
+    FP_BUKHOOR_ENABLED_UNSPECIFIED = 0;
+    FP_BUKHOOR_ENABLED_S1 = 1;
+    FP_BUKHOOR_ENABLED_S2 = 2;
+    FP_BUKHOOR_ENABLED_S3 = 3;
+  }
+
+  enum ExternalContactEventS2 {
+    EXTERNAL_CONTACT_EVENT_S2_UNSPECIFIED = 0;
+    EXTERNAL_CONTACT_EVENT_S2_BOLT_SWITCH_CONTACT_EVENT_ENABLED = 1;
+    EXTERNAL_CONTACT_EVENT_S2_RESERVED_2 = 2;
+    EXTERNAL_CONTACT_EVENT_S2_RESERVED_3 = 3;
+    EXTERNAL_CONTACT_EVENT_S2_RESERVED_4 = 4;
+    EXTERNAL_CONTACT_EVENT_S2_RESERVED_5 = 5;
+    EXTERNAL_CONTACT_EVENT_S2_RESERVED_6 = 6;
+    EXTERNAL_CONTACT_EVENT_S2_RESERVED_7 = 7;
+    EXTERNAL_CONTACT_EVENT_S2_RESERVED_8 = 8;
+  }
+}

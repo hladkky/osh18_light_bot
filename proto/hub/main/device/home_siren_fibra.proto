@@ -1,0 +1,125 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "v1/hub/main/device/common_device.proto";
+import "v1/hub/main/device/common_fibra.proto";
+
+message HomeSirenFibra {
+    CommonDevicePart common_part = 1000;
+    CommonFibraPart common_fibra_part = 1001;
+
+    int32 alarm_duration = 0x31;
+    bool beep_on_arm_disarm = 0x32;
+    repeated BeepOnArmDisarm beep_on_arm_disarm_v2 = 0x320;
+    ArmedLightIndication blink_while_armed = 0x33;
+    SirenVolumeLevel siren_volume_level = 0x35;
+    BuzzerState buzzer_state = 0x37;
+    bool beep_on_delay = 0x38;
+    repeated BeepOnDelay beep_on_delay_v2 = 0x380;
+    BeepVolumeLevel beep_volume_level = 0x3A;
+    string associated_group_id = 0x3B;
+    bool chimes_enabled = 0x3D;
+    bool post_alarm_indication_enabled = 0x3E;
+    AlarmRestrictionMode alarm_restriction_mode = 0x53;
+    repeated ProgressAnnunciationThreshold progress_annunciation_thresholds = 0x56;
+    repeated BeepConfig beep_config = 0x57;
+    ExtLed ext_led = 0x60;
+    BracketState bracket_state = 0x6C;
+
+    Subtype subtype = 0xC3;
+
+    enum ArmedLightIndication {
+        NO_ARMED_LIGHT_INDICATION_INFO = 0;
+        OFF_ARMED_LIGHT_INDICATION = 1;
+        BLINK_ARMED_LIGHT_INDICATION = 2;
+        CONSTANT_ON_ARMED_LIGHT_INDICATION = 3;
+    }
+
+    enum BuzzerState {
+        NOT_BUZZER_STATE_INFO = 0;
+        OFF_BUZZER_STATE = 1;
+        ON_BUZZER_STATE = 2;
+        WAIT_START_BUZZER_STATE = 3;
+        WAIT_STOP_BUZZER_STATE = 4;
+    }
+
+    enum SirenVolumeLevel {
+        NO_SIREN_VOLUME_LEVEL_INFO = 0;
+        VERY_LOUD_SIREN_VOLUME_LEVEL = 1;
+        LOUD_SIREN_VOLUME_LEVEL = 18;
+        QUIET_SIREN_VOLUME_LEVEL = 29;
+        DISABLED_SIREN_VOLUME_LEVEL = 32;
+    }
+
+    enum BeepVolumeLevel {
+        NO_BEEP_VOLUME_LEVEL_INFO = 0;
+        VERY_LOUD_BEEP_VOLUME_LEVEL = 1;
+        LOUD_BEEP_VOLUME_LEVEL = 18;
+        QUIET_BEEP_VOLUME_LEVEL = 29;
+        VERY_QUIET_BEEP_VOLUME_LEVEL = 31;
+        reserved 32;
+    }
+
+    enum BeepOnArmDisarm {
+        NO_BEEP_ON_ARM_DISARM_INFO = 0;
+        BEEP_ON_ARM = 1;
+        BEEP_ON_DISARM = 2;
+        BEEP_ON_NIGHT_ARM = 3;
+        BEEP_ON_NIGHT_DISARM = 4;
+        BEEP_ON_ABORT_WINDOW = 5;
+        BEEP_ON_CANCEL_WINDOW = 6;
+    }
+
+    enum BeepOnDelay {
+        NO_BEEP_ON_DELAY_INFO = 0;
+        BEEP_ON_ARM_DELAY = 1;
+        BEEP_ON_DISARM_DELAY = 2;
+        BEEP_ON_NIGHT_ARM_DELAY = 3;
+        BEEP_ON_NIGHT_DISARM_DELAY = 4;
+    }
+
+    enum AlarmRestrictionMode {
+        ALARM_RESTRICTION_MODE_UNSPECIFIED = 0;
+        ALARM_RESTRICTION_MODE_ALWAYS = 1;
+        ALARM_RESTRICTION_MODE_IF_ARMED = 2;
+    }
+
+    message ProgressAnnunciationThreshold {
+        oneof setting {
+            Delay entry_delay = 1;
+            Delay exit_delay = 2;
+        }
+
+        enum Delay {
+            DELAY_UNSPECIFIED = 0;
+            DELAY_DISABLED = 1;
+            DELAY_5_SEC = 2;
+            DELAY_10_SEC = 3;
+            DELAY_15_SEC = 4;
+        }
+    }
+
+    enum BeepConfig {
+        BEEP_CONFIG_UNSPECIFIED = 0;
+        BEEP_CONFIG_SILENT_ENTRY_DELAY_ENABLED = 1;
+    }
+
+    enum Subtype {
+        NO_SUBTYPE = 0;
+    }
+
+    enum ExtLed {
+        EXT_LED_UNSPECIFIED = 0;
+        EXT_LED_BLINK = 1;
+        EXT_LED_SHINE_CONSTANTLY = 2;
+    }
+
+    enum BracketState {
+        BRACKET_STATE_UNSPECIFIED = 0;
+        BRACKET_STATE_LOCKED = 1;
+        BRACKET_STATE_UNLOCKED = 2;
+    }
+}

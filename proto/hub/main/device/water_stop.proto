@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "v1/hub/main/device/common_device.proto";
+
+message WaterStop {
+  CommonDevicePart common_part = 1000;
+
+  ButtonConfig button_config = 0x31;
+  IndicationMode indication_mode = 0x32;
+  repeated ActionOnArming actions_on_arming = 0x33;
+  repeated EventSettings event_settings = 0x34;
+  ExtPower ext_power = 0x35;
+  repeated ErrorDescription error_descriptions = 0x37;
+  MotorState motor_state = 0x38;
+  ValveState valve_state = 0x39;
+  TempProtect temp_protect = 0x3A;
+  int64 in_scenario = 0x72;
+
+  Subtype subtype = 0xC3;
+
+  enum ExtPower {
+    EXT_POWER_UNSPECIFIED = 0;
+    EXT_POWER_NO_SUPPLY = 1;
+    EXT_POWER_SUPPLY = 2;
+  }
+
+  enum TempProtect {
+    TEMP_PROTECT_UNSPECIFIED = 0;
+    TEMP_PROTECT_OFF = 1;
+    TEMP_PROTECT_ON = 2;
+  }
+
+  enum MotorState {
+    MOTOR_STATE_UNSPECIFIED = 0;
+    MOTOR_STATE_OFF = 1;
+    MOTOR_STATE_ROTATE_TO_CLOSING = 2;
+    MOTOR_STATE_ROTATE_TO_OPEN = 3;
+    MOTOR_STATE_LOCKED_FOR_DEVICE_PROTECTION = 4;
+  }
+
+  enum ValveState {
+    VALVE_STATE_UNSPECIFIED = 0;
+    VALVE_STATE_CLOSED = 1;
+    VALVE_STATE_OPEN = 2;
+    VALVE_STATE_INTERMEDIATE_STATE = 3;
+  }
+
+  enum ErrorDescription {
+    ERROR_DESCRIPTION_UNSPECIFIED = 0;
+    ERROR_DESCRIPTION_MOTOR_TIMEOUT = 1;
+    ERROR_DESCRIPTION_OVER_CURRENT = 2;
+    ERROR_DESCRIPTION_UNKNOWN_SWITCH_STATE = 3;
+    ERROR_DESCRIPTION_FEEDBACK_SENSOR_FAIL = 4;
+    ERROR_DESCRIPTION_BATTERY_PLACEMENT_ERROR = 5;
+  }
+
+  enum EventSettings {
+    EVENT_SETTINGS_UNSPECIFIED = 0;
+    EVENT_SETTINGS_EVENT_BY_USER_EN = 1;
+    EVENT_SETTINGS_EVENT_BY_SCE_EN = 2;
+    EVENT_SETTINGS_EVENT_CONNECTION_LOST_IGNORE = 3;
+  }
+
+  enum ActionOnArming {
+    ACTION_ON_ARMING_UNSPECIFIED = 0;
+    ACTION_ON_ARMING_NOTHING = 1;
+    ACTION_ON_ARMING_OPEN_WHEN_ARMING = 2;
+    ACTION_ON_ARMING_CLOSED_WHEN_ARMING = 3;
+    ACTION_ON_ARMING_OPEN_WHEN_DISARMING = 4;
+    ACTION_ON_ARMING_CLOSED_WHEN_DISARMING = 5;
+    ACTION_ON_ARMING_CONSIDER_NIGHT_MODE = 6;
+  }
+
+  enum ButtonConfig {
+    BUTTON_CONFIG_UNSPECIFIED = 0;
+    BUTTON_CONFIG_ALLOWED = 1;
+    BUTTON_CONFIG_RESTRICTED = 2;
+  }
+
+  enum IndicationMode {
+    INDICATION_MODE_UNSPECIFIED = 0;
+    INDICATION_MODE_ENABLED = 1;
+    INDICATION_MODE_DISABLED = 2;
+    INDICATION_MODE_ENABLED_SERVICE_STATUS = 3;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0;
+    WATER_STOP = 1;
+  }
+}

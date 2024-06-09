@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "v1/hub/main/device/hub_device.proto";
+import "v1/hub/main/image_urls.proto";
+import "systems/ajax/logging/proto/log_marker.proto";
+
+message LightweightHub {
+    string id = 0x0A [(log_marker) = LOG_MARKER_HUB_ID];
+    string name = 1000;
+    bool groups_enabled = 0x7E;
+    HubDevice.State state = 0x08;
+    HubDevice.StateWithGroups state_with_groups = 0x89;
+    systems.ajax.a911.grpc.v1.hub.main.ImageUrls image_urls = 1020;
+    google.protobuf.BoolValue online = 1030;
+    HubDevice.Color color = 0x49;
+    HubDevice.Subtype subtype = 0x75;
+    google.protobuf.Int32Value warnings_total_count = 0x6C;
+    HubDevice.Firmware firmware = 1040;
+}

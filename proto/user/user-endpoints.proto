@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+import "v1/registration/registration.proto";
+import "v1/user/user.proto";
+import "v1/image/image.proto";
+
+import "v1/common/traffic-logging.proto";
+
+import "systems/ajax/logging/proto/formatting_options.proto";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.user.v1";
+
+service UserService {
+    rpc getCurrentUser (google.protobuf.Empty) returns (GetUserResponse);
+    rpc streamUserChanges (google.protobuf.Empty) returns (stream UserChanges);
+    rpc restorePassword (RestorePasswordRequest) returns (RestorePasswordResponse);
+    rpc confirmNewPassword (ConfirmNewPasswordRequest) returns (google.protobuf.Empty);
+    rpc updateUserInfo (UpdateUserInfoRequest) returns (google.protobuf.Empty);
+    rpc updateUserPolicies (UpdateUserPoliciesRequest) returns (google.protobuf.Empty);
+    rpc updateUserEmail (UpdateUserEmailRequest) returns (UpdateSecuredFieldResponse);
+    rpc updateUserPhone (UpdateUserPhoneRequest) returns (UpdateSecuredFieldResponse);
+    rpc updateUserPassword (UpdateUserPasswordRequest) returns (UpdateSecuredFieldResponse);
+    rpc updateUserPhoto(stream ImageChunk) returns (UploadUserPhotoResponse);
+    rpc deleteUserPhoto(google.protobuf.Empty) returns (DeleteUserPhotoResponse);
+    rpc confirmSecuredFieldUpdate (ConfirmSecuredFieldUpdateRequest) returns (google.protobuf.Empty);
+}
+
+message GetUserResponse {
+    FullUser.UserInfo user_info = 1;
+    repeated FullUser.UserCompany companies = 2;
+}
+
+message UserChanges {
+    oneof changes {
+        FullUser.UserInfo user_info = 1;
+        FullUser origin = 2;
+    }
+}
+
+message RestorePasswordRequest {
+    string email_or_phone = 1 [(hash_value) = true];
+}
+
+message RestorePasswordResponse {
+    uint32 expected_token_length = 1;
+}
+
+message ConfirmNewPasswordRequest {
+    string email_or_phone = 1 [(hash_value) = true];
+    string phone_token = 2;
+    string mail_token = 3;
+    string new_password = 4 [(hash_value) = true];
+}
+
+message UpdateUserInfoRequest {
+    string firstName = 1 [(hash_value) = true];
+    string lastName = 2 [(hash_value) = true];
+    string locale = 3;
+}
+
+message UpdateUserEmailRequest {
+    string password = 1 [(hash_value) = true];
+    UserRegistration.PhoneValidationType phone_validation_type = 2;
+    string new_email = 3 [(hash_value) = true];
+}
+
+message UpdateUserPhoneRequest {
+    string password = 1 [(hash_value) = true];
+    UserRegistration.PhoneValidationType phone_validation_type = 2;
+    string new_phone = 3 [(hash_value) = true];
+}
+
+message UpdateUserPasswordRequest {
+    string password = 1 [(hash_value) = true];
+    UserRegistration.PhoneValidationType phone_validation_type = 2;
+    string new_password = 3 [(hash_value) = true];
+}
+
+message UpdateSecuredFieldResponse {
+    string validation_phone_starts_with = 1;
+    uint32 expected_token_length = 2;
+}
+
+message ConfirmSecuredFieldUpdateRequest {
+    string phone_token = 1;
+    string email_token = 2;
+}
+
+message UploadUserPhotoResponse {
+    bool updated = 1;
+}
+
+message DeleteUserPhotoResponse {
+    bool deleted = 1;
+}
+
+message UpdateUserPoliciesRequest {
+    uint32 end_user_agreement_version = 1;
+    uint32 privacy_policy_version = 2;
+}

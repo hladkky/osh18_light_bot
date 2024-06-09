@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.company.v1";
+
+service CmsAvailabilityService {
+  rpc getAvailabilityPercent(CmsAvailabilityRequest) returns (CmsAvailabilityResponse);
+}
+
+message CmsAvailabilityRequest {
+  google.protobuf.Timestamp from_date = 1;
+  google.protobuf.Timestamp to_date = 2;
+}
+
+message CmsAvailabilityResponse {
+  double availability_percent = 1;
+}

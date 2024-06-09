@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main";
+option java_multiple_files = true;
+
+message Bus {
+  int32 id = 0x01;  // [1-8]
+  int32 assigned_slave_bus_id = 0x02; // 0,[1-8]
+  repeated ConnectionState connection_states = 0x03;
+  repeated PowerStatus power_statuses = 0x04;
+
+  enum ConnectionState {
+    CONNECTION_STATE_UNSPECIFIED = 0;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_ONE = 1;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_TWO = 2;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_THREE = 3;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_FOUR = 4;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_FIVE = 5;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_SIX = 6;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_SEVEN = 7;
+    CONNECTION_STATE_CONNECTED_WITH_BUS_EIGHT = 8;
+  }
+
+  enum PowerStatus {
+    POWER_STATUS_UNSPECIFIED = 0;
+    POWER_STATUS_SHORT_CIRCUIT = 1;
+    POWER_STATUS_OVER_VOLTAGE = 2;
+    POWER_STATUS_SABOTAGE = 3;
+    POWER_STATUS_SOFT_SHORT_CIRCUIT = 4;
+  }
+}

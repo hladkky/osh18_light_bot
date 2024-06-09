@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.facility.v1";
+
+service FacilityAvailabilityService {
+  rpc getFacilitiesAvailabilityPercent(FacilityAvailabilityRequest) returns (FacilityAvailabilityResponse);
+}
+
+message FacilityAvailabilityRequest {
+  google.protobuf.Timestamp from_date = 1;
+  google.protobuf.Timestamp to_date = 2;
+  string registration_number_pattern = 3;
+}
+
+message FacilityAvailabilityResponse {
+  repeated FacilityAvailability facility_availabilities = 1;
+}
+
+message FacilityAvailability {
+  string registration_number = 1;
+  double availability_percent = 2;
+}

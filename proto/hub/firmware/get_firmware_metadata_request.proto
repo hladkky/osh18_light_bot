@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.firmware;
+
+option java_package = "systems.ajax.a911.grpc.hub.v1.firmware";
+option java_multiple_files = true;
+
+import "v1/hub/main/firmware_id.proto";
+import "google/protobuf/empty.proto";
+import "v2/common/hub/firmware_id.proto";
+
+message GetFirmwareMetadataRequest {
+  oneof firmware_id_version {
+    systems.ajax.a911.grpc.v1.hub.main.FirmwareId firmware_id = 1;
+    systems.ajax.api.desktop.v2.common.hub.FirmwareId firmware_id_v2 = 3;
+  }
+  string language_code = 2;
+}
+
+message GetFirmwareMetadataResponse {
+  oneof response {
+    Success success = 1;
+    Failure failure = 2;
+  }
+
+  message Success {
+    repeated string release_notes = 1;
+    repeated string before_proceed_notes = 2;
+  }
+
+  message Failure {
+    string message = 100;
+    oneof error {
+      google.protobuf.Empty illegal_argument = 1;
+      google.protobuf.Empty not_found = 2;
+    }
+  }
+}

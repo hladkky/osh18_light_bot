@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+
+import "v1/hub/main/device/common_device.proto";
+
+message MultiTransmitter {
+  CommonDevicePart common_part = 1000;
+
+  bool external_power = 0x31;
+  google.protobuf.BoolValue external_power_v2 = 0x310;
+  bool external_sensor_power_broken = 0x33;
+  google.protobuf.BoolValue external_sensor_power_broken_v2 = 0x330;
+  bool battery_charging = 0x34;
+  google.protobuf.BoolValue battery_charging_v2 = 0x340;
+  bool battery_broken = 0x35;
+  google.protobuf.BoolValue battery_broken_v2 = 0x350;
+  bool external_fire_notifiers_power_broken = 0x37;
+  google.protobuf.BoolValue external_fire_notifiers_power_broken_v2 = 0x370;
+
+  repeated SirenTrigger siren_triggers = 0x2E;
+
+  Subtype subtype = 0xC3;
+
+  enum SirenTrigger {
+    NO_SIREN_TRIGGER_INFO = 0;
+
+    SHORT_CIRCUIT = 1;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0;
+  }
+}

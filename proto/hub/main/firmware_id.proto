@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+option java_package = "systems.ajax.a911.grpc.hub.v1.firmware.common";
+
+import "v1/hub/main/object_subtype.proto";
+option java_multiple_files = true;
+
+message FirmwareId {
+  v1.hub.main.ObjectSubtype device_type = 1;
+  string device_hardware_version = 3;
+  int32 firmware_band_type = 4;
+  string firmware_version = 5;
+}

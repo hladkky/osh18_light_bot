@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package systems.ajax.api.desktop.v2.common.hub.sim;
+
+option java_package = "systems.ajax.api.desktop.v2.common.hub.sim";
+option java_multiple_files = true;
+
+enum SimState {
+  SIM_STATE_UNSPECIFIED = 0;
+  SIM_STATE_INACTIVE = 1;
+  SIM_STATE_ACTIVE = 2;
+  SIM_STATE_SUSPENDED = 3;
+}

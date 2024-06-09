@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main";
+option java_multiple_files = true;
+
+import "v1/hub/main/name.proto";
+
+message AccessCode {
+    string id = 0x01;
+    Name name = 1000;
+    int32 index = 0x03;
+    string pass_hash = 0x04;
+    string duress_pass_hash = 0x05;
+    repeated GroupPermissions group_permissions = 1010;
+    repeated ArmingPermission arming_permissions = 0x08;
+    bool enabled = 0x09;
+    bool duress_pass_hash_exist = 0x0A;
+    repeated PasswordIntegrity password_integrity = 0x0B;
+    Subtype subtype = 0xC3;
+    AccessRRUCodePart access_rru_code_part = 1001;
+
+    message GroupPermissions {
+        string group_id = 1000;
+        repeated Permission permissions = 1010;
+
+        enum Permission {
+            NO_ACCESS_CODE_GROUP_PERMISSIONS_INFO = 0;
+            ACCESS_CODE_GROUP_PERMISSIONS_ARM = 1;
+            ACCESS_CODE_GROUP_PERMISSIONS_DISARM = 2;
+        }
+    }
+
+    enum ArmingPermission {
+        NO_ACCESS_CODE_ARMING_PERMISSION_INFO = 0;
+        ACCESS_CODE_ARMING_PERMISSION_ARM = 1;
+        ACCESS_CODE_ARMING_PERMISSION_DISARM = 2;
+        ACCESS_CODE_ARMING_PERMISSION_NIGHT_MODE = 3;
+    }
+
+    enum PasswordIntegrity {
+        PASSWORD_INTEGRITY_UNSPECIFIED = 0;
+        PASSWORD_INTEGRITY_MAIN_PASSWORD_RESET_REQUIRED = 1;
+        PASSWORD_INTEGRITY_DURESS_PASSWORD_RESET_REQUIRED = 2;
+    }
+
+    enum Subtype {
+        SUBTYPE_UNSPECIFIED = 0;
+        SUBTYPE_ACCESS_RRU_CODE = 1;
+    }
+
+    message AccessRRUCodePart {
+        bool activation_state = 0x0C;
+        int32 actuation_range = 0x0D;
+        int32 expiration_range = 0x0E;
+        int32 timestamp_conversion = 0x0F;
+    }
+}

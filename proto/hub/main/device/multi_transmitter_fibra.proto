@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+
+import "v1/hub/main/device/common_device.proto";
+import "v1/hub/main/device/common_fibra.proto";
+
+message MultiTransmitterFibra {
+  CommonDevicePart common_part = 1000;
+  CommonFibraPart common_fibra_part = 1001;
+
+  ExternalPower external_power = 0x31;
+  ExternalSensorPowerBroken external_sensor_power_broken = 0x33;
+  BatteryCharging battery_charging = 0x34;
+  BatteryBroken battery_broken = 0x35;
+  ExternalFireNotifiersPowerBroken external_fire_notifiers_power_broken = 0x37;
+  google.protobuf.Int32Value battery_percents = 0x47;
+  ProceedWireInputMalfunction proceed_wire_input_malfunction = 0x4A;
+
+  repeated SirenTrigger siren_triggers = 0x2E;
+
+  Subtype subtype = 0xC3;
+
+  enum SirenTrigger {
+    NO_SIREN_TRIGGER_INFO = 0;
+    SHORT_CIRCUIT = 1;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0;
+  }
+
+  enum ExternalPower {
+    NO_EXTERNAL_POWER_INFO = 0;
+    EXTERNAL_POWER_DISABLED = 1;
+    EXTERNAL_POWER_ENABLED = 2;
+  }
+
+  enum ExternalSensorPowerBroken {
+    NO_EXTERNAL_SENSOR_POWER_BROKEN_INFO = 0;
+    EXTERNAL_SENSOR_POWER_OK = 1;
+    EXTERNAL_SENSOR_POWER_BROKEN = 2;
+  }
+
+  enum BatteryCharging {
+    NO_BATTERY_CHARGING_INFO = 0;
+    BATTERY_IS_NOT_CHARGING = 1;
+    BATTERY_CHARGING = 2;
+  }
+
+  enum BatteryBroken {
+    NO_BATTERY_BROKEN_INFO = 0;
+    BATTERY_IS_NOT_BROKEN = 1;
+    BATTERY_BROKEN = 2;
+  }
+
+  enum ExternalFireNotifiersPowerBroken {
+    NO_EXTERNAL_FIRE_NOTIFIERS_POWER_BROKEN_INFO = 0;
+    EXTERNAL_FIRE_NOTIFIERS_POWER_OK = 1;
+    EXTERNAL_FIRE_NOTIFIERS_POWER_BROKEN = 2;
+  }
+
+  enum ProceedWireInputMalfunction {
+    PROCEED_WIRE_INPUT_MALFUNCTION_UNSPECIFIED = 0;
+    PROCEED_WIRE_INPUT_MALFUNCTION_DISABLED = 1;
+    PROCEED_WIRE_INPUT_MALFUNCTION_ENABLED = 2;
+  }
+}

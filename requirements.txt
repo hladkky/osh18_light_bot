@@ -1,0 +1,8 @@
+grpc-tools==0.0.1
+grpcio-tools==1.40
+grpcio==1.40
+grpclib==0.4.2
+Rx==3.2.0
+python-dotenv==1.0.1
+loguru==0.7.2
+aiogram==3.7.0

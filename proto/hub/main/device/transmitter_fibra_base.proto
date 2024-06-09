@@ -1,0 +1,414 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+import "google/protobuf/wrappers.proto";
+
+import "v1/hub/main/device/common_device.proto";
+import "v1/hub/main/device/common_fibra.proto";
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+message TransmitterFibraBase {
+  CommonDevicePart common_part = 1000;
+  CommonFibraPart common_fibra_part = 1001;
+
+  DetectorsPowerLineState detectors_power_line_state = 0x31;
+
+  ExternalPowerSupply external_power_supply = 0x32;
+
+  Subtype subtype = 0xC3;
+
+  oneof subtypes {
+    TransmitterFibraTwoChannels transmitter_fibra_two_channels = 0x01;
+    TransmitterFibraFourChannels transmitter_fibra_four_channels = 0x02;
+    TransmitterFibraFourChannelsInputOutput transmitter_fibra_four_channels_input_output = 0x03;
+    TransmitterFibraFourChannelsOneRelay transmitter_fibra_four_channels_one_relay = 0x04;
+    TransmitterFibraFourChannelsTwoRelays transmitter_fibra_four_channels_two_relays = 0x05;
+    TransmitterFibraFourChannelsTwoRelaysTwoLogical transmitter_fibra_four_channels_two_relays_two_logical = 0x06;
+  }
+
+  enum Subtype {
+    SUBTYPE_UNSPECIFIED = 0;
+    SUBTYPE_TRANSMITTER_FIBRA_TWO_CHANNELS = 1;
+    SUBTYPE_TRANSMITTER_FIBRA_FOUR_CHANNELS = 2;
+    SUBTYPE_TRANSMITTER_FIBRA_FOUR_CHANNELS_INPUT_OUTPUT = 3;
+    SUBTYPE_TRANSMITTER_FIBRA_FOUR_CHANNELS_ONE_RELAY = 4;
+    SUBTYPE_TRANSMITTER_FIBRA_FOUR_CHANNELS_TWO_RELAYS = 5;
+    SUBTYPE_TRANSMITTER_FIBRA_FOUR_CHANNELS_TWO_RELAYS_TWO_LOGICAL = 6;
+  }
+
+  // subtypes
+
+  message TransmitterFibraTwoChannels {
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    int32 external_power_current = 0x36;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_SHORT_CIRCUIT = 1;
+    }
+  }
+
+  message TransmitterFibraFourChannels {
+
+    TransmitterFibraTwoChannelsPart transmitter_fibra_two_channels_part = 1;
+    TransmitterFibraFourChannelsPart transmitter_fibra_four_channels_part = 2;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_SHORT_CIRCUIT = 1;
+    }
+  }
+
+  message TransmitterFibraFourChannelsInputOutput {
+
+    TransmitterFibraTwoChannelsPart transmitter_fibra_two_channels_part = 1;
+    TransmitterFibraFourChannelsPart transmitter_fibra_four_channels_part = 2;
+    TransmitterFibraFourChannelsInputOutputPart transmitter_fibra_four_channels_input_output_part = 3;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_SHORT_CIRCUIT = 1;
+    }
+  }
+
+  message TransmitterFibraFourChannelsOneRelay {
+
+    TransmitterFibraTwoChannelsPart transmitter_fibra_two_channels_part = 1;
+    TransmitterFibraFourChannelsPart transmitter_fibra_four_channels_part = 2;
+    TransmitterFibraFourChannelsInputOutputPart transmitter_fibra_four_channels_input_output_part = 3;
+    ChannelOne channel_one = 4;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_SHORT_CIRCUIT = 1;
+    }
+  }
+
+  message TransmitterFibraFourChannelsTwoRelays {
+
+    TransmitterFibraTwoChannelsPart transmitter_fibra_two_channels_part = 1;
+    TransmitterFibraFourChannelsPart transmitter_fibra_four_channels_part = 2;
+    TransmitterFibraFourChannelsInputOutputPart transmitter_fibra_four_channels_input_output_part = 3;
+    ChannelOne channel_one = 4;
+    ChannelTwo channel_two = 5;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_SHORT_CIRCUIT = 1;
+    }
+  }
+
+  message TransmitterFibraFourChannelsTwoRelaysTwoLogical {
+
+    TransmitterFibraTwoChannelsPart transmitter_fibra_two_channels_part = 1;
+    TransmitterFibraFourChannelsPart transmitter_fibra_four_channels_part = 2;
+    TransmitterFibraFourChannelsInputOutputPart transmitter_fibra_four_channels_input_output_part = 3;
+    ChannelOne channel_one = 4;
+    ChannelTwo channel_two = 5;
+    ChannelThree channel_three = 6;
+    ChannelFour channel_four = 7;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_SHORT_CIRCUIT = 1;
+    }
+  }
+
+  // Parts
+
+  message TransmitterFibraTwoChannelsPart {
+    int32 external_power_current = 0x36;
+  }
+
+  message TransmitterFibraFourChannelsPart {
+    TamperedFront tampered_front = 0x37;
+    TamperSet tamper_set = 0x38;
+  }
+
+  message TransmitterFibraFourChannelsInputOutputPart {
+    RelaysPowerLineState relays_power_line_state = 0x39;
+    repeated ChannelStatus channel_statuses = 0x3A;
+    repeated ProtectStatus protect_statuses = 0x3B;
+  }
+
+  message ChannelOne {
+    string name_channel_one = 0x40;
+    repeated SettingChannelOne settings_channel_one = 0x41;
+    int32 shutoff_period_channel_one = 0x42;
+    repeated ArmingActionsChannelOne arming_actions_channel_one = 0x43;
+
+    google.protobuf.Int32Value shutoff_time_channel_one = 0x45;
+    TypeChannelOne type_channel_one = 0x80;
+    ModeSettingsChannelOne mode_settings_channel_one = 0x81;
+  }
+
+  message ChannelTwo {
+    string name_channel_two = 0x48;
+    repeated SettingChannelTwo settings_channel_two = 0x49;
+    int32 shutoff_period_channel_two = 0x4A;
+    repeated ArmingActionsChannelTwo arming_actions_channel_two = 0x4B;
+
+    google.protobuf.Int32Value shutoff_time_channel_two = 0x4D;
+    TypeChannelTwo type_channel_two = 0x82;
+    ModeSettingsChannelTwo mode_settings_channel_two = 0x83;
+  }
+
+  message ChannelThree {
+    string name_channel_three = 0x70;
+    repeated SettingChannelThree settings_channel_three = 0x71;
+    int32 shutoff_period_channel_three = 0x72;
+    repeated ArmingActionsChannelThree arming_actions_channel_three = 0x73;
+
+    google.protobuf.Int32Value shutoff_time_channel_three = 0x75;
+    TypeChannelThree type_channel_three = 0x84;
+    ModeSettingsChannelThree mode_settings_channel_three = 0x85;
+  }
+
+  message ChannelFour {
+    string name_channel_four = 0x78;
+    repeated SettingChannelFour settings_channel_four = 0x79;
+    int32 shutoff_period_channel_four = 0x7A;
+    repeated ArmingActionsChannelFour arming_actions_channel_four = 0x7B;
+
+    google.protobuf.Int32Value shutoff_time_channel_four = 0x7D;
+    TypeChannelFour type_channel_four = 0x86;
+    ModeSettingsChannelFour mode_settings_channel_four = 0x87;
+  }
+
+  // fields definition
+
+  enum DetectorsPowerLineState {
+    DETECTORS_POWER_LINE_STATE_UNSPECIFIED = 0;
+    DETECTORS_POWER_LINE_STATE_DISABLED = 1;
+    DETECTORS_POWER_LINE_STATE_ENABLED = 2;
+    DETECTORS_POWER_LINE_STATE_SHORT_CIRCUIT = 3;
+  }
+
+  enum ExternalPowerSupply {
+    EXTERNAL_POWER_SUPPLY_UNSPECIFIED = 0;
+    EXTERNAL_POWER_SUPPLY_DISABLED = 1;
+    EXTERNAL_POWER_SUPPLY_ENABLED = 2;
+  }
+
+  enum TamperedFront {
+    TAMPERED_FRONT_UNSPECIFIED = 0;
+    TAMPERED_FRONT_OK = 1;
+    TAMPERED_FRONT_OPEN = 2;
+  }
+
+  enum TamperSet {
+    TAMPER_SET_UNSPECIFIED = 0;
+    TAMPER_SET_ABSENT = 1;
+    TAMPER_SET_CONNECTED = 2;
+  }
+
+  enum RelaysPowerLineState {
+    RELAYS_POWER_LINE_STATE_UNSPECIFIED = 0;
+    RELAYS_POWER_LINE_STATE_OK = 1;
+    RELAYS_POWER_LINE_STATE_SHORT_CIRCUIT = 2;
+  }
+
+  enum ChannelStatus {
+    CHANNEL_STATUS_UNSPECIFIED = 0;
+    CHANNEL_STATUS_CHANNEL_1_ON = 1;
+    CHANNEL_STATUS_CHANNEL_2_ON = 2;
+    CHANNEL_STATUS_CHANNEL_3_ON = 3;
+    CHANNEL_STATUS_CHANNEL_4_ON = 4;
+    reserved 5, 6, 7, 8;
+  }
+
+  enum ProtectStatus {
+    PROTECT_STATUS_UNSPECIFIED = 0;
+    reserved 1, 2, 3, 4, 5;
+    PROTECT_STATUS_TEMP_LIMIT_ON = 6;
+    reserved 7, 8;
+  }
+
+  enum SettingChannelOne {
+    SETTING_CHANNEL_ONE_UNSPECIFIED = 0;
+    SETTING_CHANNEL_ONE_CHANNEL_ENABLED = 1;
+    SETTING_CHANNEL_ONE_NORMALLY_STATE_CLOSED = 2;  // I think this particular naming was used, because if it is present in the list, it means the bit is raised (in hts, when the NC bit is raised)
+    SETTING_CHANNEL_ONE_SHUT_OFF_MODE_ENABLED = 3;
+    SETTING_CHANNEL_ONE_STATE_SAVING_ON_POWER_LOST_ENABLED = 4;
+    SETTING_CHANNEL_ONE_EVENTS_BY_USER_ENABLED = 5;
+    SETTING_CHANNEL_ONE_EVENTS_BY_SCENARIO_ENABLED = 6;
+    SETTING_CHANNEL_ONE_RESERVED_7 = 7;
+    SETTING_CHANNEL_ONE_RESERVED_8 = 8;
+  }
+
+  enum ArmingActionsChannelOne {
+    ARMING_ACTIONS_CHANNEL_ONE_UNSPECIFIED = 0;
+    ARMING_ACTIONS_CHANNEL_ONE_RESERVED_1 = 1;
+    ARMING_ACTIONS_CHANNEL_ONE_TURN_ON_ON_ARMING = 2;
+    ARMING_ACTIONS_CHANNEL_ONE_TURN_OFF_ON_ARMING = 3;
+    ARMING_ACTIONS_CHANNEL_ONE_TURN_ON_ON_DISARMING = 4;
+    ARMING_ACTIONS_CHANNEL_ONE_TURN_OFF_ON_DISARMING = 5;
+    ARMING_ACTIONS_CHANNEL_ONE_REACT_ON_NIGHT_MODE = 6;
+    ARMING_ACTIONS_CHANNEL_ONE_RESERVED_7 = 7;
+    ARMING_ACTIONS_CHANNEL_ONE_RESERVED_8 = 8;
+  }
+
+  enum TypeChannelOne {
+    TYPE_CHANNEL_ONE_UNSPECIFIED = 0;
+    TYPE_CHANNEL_ONE_RELAY = 1;
+    TYPE_CHANNEL_ONE_LOGICAL_OUTPUT = 2;
+  }
+
+  message ModeSettingsChannelOne { // should be a custom mapper with field mask defining in the csa
+    BlockType block_type = 1; // bits [0,1]
+    bool night_mode_react_enabled = 2;
+
+    enum BlockType {
+      BLOCK_TYPE_UNSPECIFIED = 0;
+      BLOCK_TYPE_BLOCKING_ELEMENT = 1;
+      BLOCK_TYPE_ELECTRIC_LOCK = 2;
+      BLOCK_TYPE_RELAY = 3;
+      BLOCK_TYPE_RESERVED_4 = 4;
+    }
+  }
+
+  enum SettingChannelTwo {
+    SETTING_CHANNEL_TWO_UNSPECIFIED = 0;
+    SETTING_CHANNEL_TWO_CHANNEL_ENABLED = 1;
+    SETTING_CHANNEL_TWO_NORMALLY_STATE_CLOSED = 2;  // I think this particular naming was used, because if it is present in the list, it means the bit is raised (in hts, when the NC bit is raised)
+    SETTING_CHANNEL_TWO_SHUT_OFF_MODE_ENABLED = 3;
+    SETTING_CHANNEL_TWO_STATE_SAVING_ON_POWER_LOST_ENABLED = 4;
+    SETTING_CHANNEL_TWO_EVENTS_BY_USER_ENABLED = 5;
+    SETTING_CHANNEL_TWO_EVENTS_BY_SCENARIO_ENABLED = 6;
+    SETTING_CHANNEL_TWO_RESERVED_7 = 7;
+    SETTING_CHANNEL_TWO_RESERVED_8 = 8;
+  }
+
+  enum ArmingActionsChannelTwo {
+    ARMING_ACTIONS_CHANNEL_TWO_UNSPECIFIED = 0;
+    ARMING_ACTIONS_CHANNEL_TWO_RESERVED_1 = 1;
+    ARMING_ACTIONS_CHANNEL_TWO_TURN_ON_ON_ARMING = 2;
+    ARMING_ACTIONS_CHANNEL_TWO_TURN_OFF_ON_ARMING = 3;
+    ARMING_ACTIONS_CHANNEL_TWO_TURN_ON_ON_DISARMING = 4;
+    ARMING_ACTIONS_CHANNEL_TWO_TURN_OFF_ON_DISARMING = 5;
+    ARMING_ACTIONS_CHANNEL_TWO_REACT_ON_NIGHT_MODE = 6;
+    ARMING_ACTIONS_CHANNEL_TWO_RESERVED_7 = 7;
+    ARMING_ACTIONS_CHANNEL_TWO_RESERVED_8 = 8;
+  }
+
+  enum TypeChannelTwo {
+    TYPE_CHANNEL_TWO_UNSPECIFIED = 0;
+    TYPE_CHANNEL_TWO_RELAY = 1;
+    TYPE_CHANNEL_TWO_LOGICAL_OUTPUT = 2;
+  }
+
+  message ModeSettingsChannelTwo { // should be a custom mapper with field mask defining in the csa
+    BlockType block_type = 1; // bits [0,1]
+    bool night_mode_react_enabled = 2;
+
+    enum BlockType {
+      BLOCK_TYPE_UNSPECIFIED = 0;
+      BLOCK_TYPE_BLOCKING_ELEMENT = 1;
+      BLOCK_TYPE_ELECTRIC_LOCK = 2;
+      BLOCK_TYPE_RELAY = 3;
+      BLOCK_TYPE_RESERVED_4 = 4;
+    }
+  }
+
+  enum SettingChannelThree {
+    SETTING_CHANNEL_THREE_UNSPECIFIED = 0;
+    SETTING_CHANNEL_THREE_CHANNEL_ENABLED = 1;
+    SETTING_CHANNEL_THREE_NORMALLY_STATE_HIGH = 2;
+    SETTING_CHANNEL_THREE_SHUT_OFF_MODE_ENABLED = 3;
+    SETTING_CHANNEL_THREE_RESERVED_4 = 4;
+    SETTING_CHANNEL_THREE_EVENTS_BY_USER_ENABLED = 5;
+    SETTING_CHANNEL_THREE_EVENTS_BY_SCENARIO_ENABLED = 6;
+    SETTING_CHANNEL_THREE_RESERVED_7 = 7;
+    SETTING_CHANNEL_THREE_RESERVED_8 = 8;
+  }
+
+  enum ArmingActionsChannelThree {
+    ARMING_ACTIONS_CHANNEL_THREE_UNSPECIFIED = 0;
+    ARMING_ACTIONS_CHANNEL_THREE_RESERVED_1 = 1;
+    ARMING_ACTIONS_CHANNEL_THREE_TURN_ON_ON_ARMING = 2;
+    ARMING_ACTIONS_CHANNEL_THREE_TURN_OFF_ON_ARMING = 3;
+    ARMING_ACTIONS_CHANNEL_THREE_TURN_ON_ON_DISARMING = 4;
+    ARMING_ACTIONS_CHANNEL_THREE_TURN_OFF_ON_DISARMING = 5;
+    ARMING_ACTIONS_CHANNEL_THREE_REACT_ON_NIGHT_MODE = 6;
+    ARMING_ACTIONS_CHANNEL_THREE_RESERVED_7 = 7;
+    ARMING_ACTIONS_CHANNEL_THREE_RESERVED_8 = 8;
+  }
+
+  enum TypeChannelThree {
+    TYPE_CHANNEL_THREE_UNSPECIFIED = 0;
+    TYPE_CHANNEL_THREE_RELAY = 1;
+    TYPE_CHANNEL_THREE_LOGICAL_OUTPUT = 2;
+  }
+
+  message ModeSettingsChannelThree { // should be a custom mapper with field mask defining in the csa
+    BlockType block_type = 1; // bit [0]
+    bool night_mode_react_enabled = 2;
+
+    enum BlockType {
+      BLOCK_TYPE_UNSPECIFIED = 0;
+      BLOCK_TYPE_BLOCKING_ELEMENT = 1;
+      BLOCK_TYPE_ELECTRIC_LOCK = 2;
+      BLOCK_TYPE_RESERVED_3 = 3;
+      BLOCK_TYPE_RESERVED_4 = 4;
+    }
+  }
+
+  enum SettingChannelFour {
+    SETTING_CHANNEL_FOUR_UNSPECIFIED = 0;
+    SETTING_CHANNEL_FOUR_CHANNEL_ENABLED = 1;
+    SETTING_CHANNEL_FOUR_NORMALLY_STATE_HIGH = 2;
+    SETTING_CHANNEL_FOUR_SHUT_OFF_MODE_ENABLED = 3;
+    SETTING_CHANNEL_FOUR_RESERVED_4 = 4;
+    SETTING_CHANNEL_FOUR_EVENTS_BY_USER_ENABLED = 5;
+    SETTING_CHANNEL_FOUR_EVENTS_BY_SCENARIO_ENABLED = 6;
+    SETTING_CHANNEL_FOUR_RESERVED_7 = 7;
+    SETTING_CHANNEL_FOUR_RESERVED_8 = 8;
+  }
+
+  enum ArmingActionsChannelFour {
+    ARMING_ACTIONS_CHANNEL_FOUR_UNSPECIFIED = 0;
+    ARMING_ACTIONS_CHANNEL_FOUR_RESERVED_1 = 1;
+    ARMING_ACTIONS_CHANNEL_FOUR_TURN_ON_ON_ARMING = 2;
+    ARMING_ACTIONS_CHANNEL_FOUR_TURN_OFF_ON_ARMING = 3;
+    ARMING_ACTIONS_CHANNEL_FOUR_TURN_ON_ON_DISARMING = 4;
+    ARMING_ACTIONS_CHANNEL_FOUR_TURN_OFF_ON_DISARMING = 5;
+    ARMING_ACTIONS_CHANNEL_FOUR_REACT_ON_NIGHT_MODE = 6;
+    ARMING_ACTIONS_CHANNEL_FOUR_RESERVED_7 = 7;
+    ARMING_ACTIONS_CHANNEL_FOUR_RESERVED_8 = 8;
+  }
+
+  enum TypeChannelFour {
+    TYPE_CHANNEL_FOUR_UNSPECIFIED = 0;
+    TYPE_CHANNEL_FOUR_RELAY = 1;
+    TYPE_CHANNEL_FOUR_LOGICAL_OUTPUT = 2;
+  }
+
+  message ModeSettingsChannelFour { // should be a custom mapper with field mask defining in the csa
+    BlockType block_type = 1; // bit [0]
+    bool night_mode_react_enabled = 2;
+
+    enum BlockType {
+      BLOCK_TYPE_UNSPECIFIED = 0;
+      BLOCK_TYPE_BLOCKING_ELEMENT = 1;
+      BLOCK_TYPE_ELECTRIC_LOCK = 2;
+      BLOCK_TYPE_RESERVED_3 = 3;
+      BLOCK_TYPE_RESERVED_4 = 4;
+    }
+  }
+}

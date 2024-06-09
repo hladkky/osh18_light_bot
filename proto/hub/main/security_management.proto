@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main";
+option java_multiple_files = true;
+
+message SecurityManagement {
+  int32 id = 0x01;
+
+  Subtype subtype = 0xC3;
+
+  oneof subtypes {
+    Keyarm keyarm = 1000;
+  }
+
+  enum Subtype {
+    SUBTYPE_UNSPECIFIED = 0;
+    SUBTYPE_KEYARM = 1;
+  }
+
+  message Keyarm {
+    KeyarmType keyarm_type = 0x03;
+    KeyarmControl keyarm_control = 0x04;
+    repeated KeyarmGroupControl keyarm_groups_control = 0x05;
+    Blocking blocking = 0x06;
+    repeated KeyarmState keyarm_state = 0x07;
+    EventLockViolationEn event_lock_violation_en = 0x08;
+
+    message KeyarmGroupControl {
+      string group_id = 1000;
+      bool permission_enabled = 1001;
+    }
+  }
+
+  enum KeyarmType {
+    KEYARM_TYPE_UNSPECIFIED = 0;
+    KEYARM_TYPE_ARM_DISARM_TOGGLING = 1;
+    KEYARM_TYPE_ARM_ONLY = 2;
+    KEYARM_TYPE_DISARM_ONLY = 3;
+  }
+
+  enum KeyarmControl {
+    KEYARM_CONTROL_UNSPECIFIED = 0;
+    KEYARM_CONTROL_HUB = 1;
+    KEYARM_CONTROL_GROUPS = 2;
+    KEYARM_CONTROL_NIGHT_MODE = 3;
+  }
+
+  enum Blocking {
+    BLOCKING_UNSPECIFIED = 0;
+    BLOCKING_DISABLED = 1;
+    BLOCKING_ENABLED = 2;
+  }
+
+  enum EventLockViolationEn {
+    EVENT_LOCK_VIOLATION_EN_UNSPECIFIED = 0;
+    EVENT_LOCK_VIOLATION_EN_DISABLED = 1;
+    EVENT_LOCK_VIOLATION_EN_ENABLED = 2;
+  }
+
+  enum KeyarmState {
+    KEYARM_STATE_UNSPECIFIED = 0;
+    KEYARM_STATE_BLOCKED = 1;
+    KEYARM_STATE_BLOCKING_AFTER_TAMPER_SUPPORTED = 2;
+    reserved 3 to max;
+  }
+}

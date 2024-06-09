@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message SlaveBusId { // 12 type in the HtS
+  int32 slave_bus_id = 1;
+}

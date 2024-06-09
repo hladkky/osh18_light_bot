@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package systems.ajax.api.desktop.v2.common.video.webrtc;
+
+import "v2/common/video/types.proto";
+import "v2/common/video/videoedge/channel/channel.proto";
+import "google/protobuf/duration.proto";
+
+option java_multiple_files = true;
+option swift_prefix = "";
+
+message Stream {
+  string id = 1; // WebRTC stream/trackID will have "id-v" and/or "id-a" form.
+
+  oneof source_union {
+    string channel_guid = 2;
+    v2.common.video.videoedge.channel.MediaDeviceInfo device_info = 8;
+  }
+
+  uint32 dcp_tag = 3; // Most probably should be incremented with each request in order to distinguish incoming data.
+
+  v2.common.video.StreamType type = 4;
+
+  repeated v2.common.video.FrameTypeId filter = 5;
+
+  oneof kind_union {
+    Live live = 6;
+    Archive archive = 7;
+  }
+
+  message Live {
+    string input_rtc_stream_id = 1;
+
+    bool use_ptz = 2;
+  }
+
+  message Archive {
+    v2.common.video.TimestampRange ts_range = 1;
+
+    bool is_export = 2;
+
+    google.protobuf.Duration pos_update_interval = 3;
+  }
+};

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message VideoScenario {
+  string scenario_name = 1;
+
+  google.protobuf.Timestamp trigger_time = 2;
+
+  repeated ChannelAlarmFrameMetadata channel_metadata = 3;
+
+  message ChannelAlarmFrameMetadata {
+    string video_edge_id = 1;
+
+    string channel_id = 2;
+
+    string channel_name = 3;
+
+    string room_name = 4;
+
+    int32 frames_ready = 5;
+
+    FramesStatus frames_status = 6;
+  }
+
+  enum FramesStatus {
+    FRAMES_STATUS_UNSPECIFIED = 0;
+    FRAMES_STATUS_IN_PROGRESS = 1;
+    FRAMES_STATUS_READY = 2;
+  }
+}

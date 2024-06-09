@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.protobuf.hub";
+option java_multiple_files = true;
+
+enum InScenarioKey {
+    NO_IN_SCENARIO_KEY_INFO = 0x00;
+    LIGHT_SWITCH_CHANNEL1 = 0x7D;
+    LIGHT_SWITCH_CHANNEL2 = 0x7E;
+    FOUR_CHANNEL_RELAY_FIBRA_CHANNEL1 = 0x44;
+    FOUR_CHANNEL_RELAY_FIBRA_CHANNEL2 = 0x4C;
+    FOUR_CHANNEL_RELAY_FIBRA_CHANNEL3 = 0x74;
+    FOUR_CHANNEL_RELAY_FIBRA_CHANNEL4 = 0x7C;
+}

@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message FirmwareInfo { // 0F type in the HtS
+  string fw_version = 1;
+  string device_hw_version = 2;
+  int32 device_band = 3;
+  int32 device_type = 4;
+  int32 device_subtype = 5;
+}

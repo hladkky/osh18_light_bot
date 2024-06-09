@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+import "v1/facility/facility-general-info.proto";
+
+import "google/protobuf/timestamp.proto";
+import "systems/ajax/logging/proto/log_marker.proto";
+
+option swift_prefix = "";
+option java_package = "systems.ajax.a911.grpc.facility.v1";
+option java_multiple_files = true;
+
+message Facility {
+    string id = 1;
+    uint64 version = 2;
+    optional string hub_id = 3 [(log_marker) = LOG_MARKER_HUB_ID];
+    bool hub_locked_by_company = 13;
+    FacilityGeneralInfo facility_general_info = 4;
+    ChannelState channel_state = 5;
+    google.protobuf.Timestamp sleep_until = 6;
+    string company_id = 8 [(log_marker) = LOG_MARKER_COMPANY_ID];
+    bool deleted = 9;
+    google.protobuf.Timestamp deleted_date = 10;
+    google.protobuf.Timestamp scheduled_removal = 11;
+    Status status = 12;
+    repeated ProvidedService provided_services = 14;
+    PrivacyOverrideStatus privacy_override_status = 15;
+    string space_id = 16 [(log_marker) = LOG_MARKER_SPACE_ID];
+    google.protobuf.Timestamp created_date = 100;
+    google.protobuf.Timestamp last_modified_date = 101;
+    enum ChannelState {
+        NO_STATE_INFO = 0;
+        INACTIVE = 1;
+        ACTIVE = 2;
+        PENDING_DELETION = 3;
+    }
+
+    enum Status {
+        MONITORING_APPROVED = 0;
+        MONITORING_REQUESTED = 1;
+        NO_MONITORING = 2;
+    }
+
+    enum ProvidedService {
+        MONITORING = 0;
+        INSTALLATION = 1;
+    }
+
+    enum PrivacyOverrideStatus {
+        PRIVACY_OVERRIDE_STATUS_UNSPECIFIED = 0;
+        PRIVACY_OVERRIDE_STATUS_DISABLED = 1;
+        PRIVACY_OVERRIDE_STATUS_ENABLED = 2;
+    }
+}

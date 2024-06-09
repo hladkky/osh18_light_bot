@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+import "google/protobuf/timestamp.proto";
+import "v1/hub/main/additional/data/video_edge_info.proto";
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message VideoArchiveExportCompleted {
+  string channel_id = 1;
+
+  string channel_name = 2;
+
+  string export_id = 3;
+
+  repeated string allowed_member_ids = 4;
+
+  string initiator_member_name = 5;
+
+  oneof metadata {
+    ExportPreparedMetadata export_prepared_metadata = 6;
+    ExportFailedMetadata export_failed_metadata = 7;
+  }
+
+  VideoEdgeInfo video_edge_info = 8;
+
+  message ExportPreparedMetadata {
+    google.protobuf.Timestamp expires_at = 1;
+  }
+
+  message ExportFailedMetadata {
+  }
+}

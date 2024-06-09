@@ -1,0 +1,15 @@
+syntax = "proto3";
+package systems.ajax.a911.grpc.auth.v2;
+
+import "v2/login/auth.proto";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.auth.v2";
+
+/*
+ * Service that provides methods for user authentication.
+ */
+service AuthService {
+  rpc login (LoginRequest) returns (LoginResponse);
+}

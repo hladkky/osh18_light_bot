@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option swift_prefix = "";
+option java_package = "systems.ajax.a911.grpc.hub.v1";
+option java_multiple_files = true;
+
+import "v1/hub/main/hub.proto";
+import "v1/hub/main/update.proto";
+import "v1/hub/main/response.proto";
+
+message HubChanges {
+    option deprecated = true;
+    oneof test_oneof {
+        systems.ajax.a911.grpc.v1.hub.main.Hub source = 1;
+        systems.ajax.a911.grpc.v1.hub.main.Update update = 2;
+        systems.ajax.a911.grpc.v1.hub.main.SubscriptionResponse subscription_response = 3;
+    }
+}

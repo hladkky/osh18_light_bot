@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option swift_prefix = "";
+option java_package = "systems.ajax.a911.grpc.facility.v1";
+option java_multiple_files = true;
+
+import "v1/facility/facility-maintenance.proto";
+
+
+service FacilityMaintenanceDataService {
+    rpc streamFacilityMaintenanceData (GetFacilityMaintenanceDataRequest) returns (stream FacilityMaintenanceData);
+    rpc saveFacilityMaintenanceData (FacilityMaintenanceData) returns (FacilityMaintenanceData);
+}
+
+message GetFacilityMaintenanceDataRequest {
+    string facility_id = 1;
+}

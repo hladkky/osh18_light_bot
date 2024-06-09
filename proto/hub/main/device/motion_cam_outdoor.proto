@@ -1,0 +1,174 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+import "v1/hub/main/device/common_device.proto";
+
+message MotionCamOutdoor {
+  CommonDevicePart common_part = 1000;
+
+  repeated SirenTrigger siren_triggers = 0x2E;
+  int32 sensitivity = 0x32;
+  bool always_active = 0x33;
+
+  ImageResolution image_resolution = 0x35;
+  int32 photos_per_alarm = 0x36;
+  int32 alarm_with_photos_limit_per_arming_session = 0x37;
+  bool data_channel_ping_enabled = 0x3E;
+  google.protobuf.BoolValue data_channel_ok = 0x42;
+  SignalQuality data_channel_signal_quality = 0x4B;
+  bool antimasking = 0x4F;
+  google.protobuf.BoolValue is_masked = 0x52;
+  bool logging_enabled = 0x54;
+
+  int32 photos_on_demand = 0x58;
+  CamshotAvailabilityMode camshot_availability_mode = 0x5A;
+  bool camshot_available_to_anyone = 0x5B;
+  CompanyPhotoOnDemandAccess company_photo_on_demand_access = 0x1001;
+
+  DeviceInstallation device_installation = 0x5F;
+  IncorrectDeviceInstallationNotification incorrect_device_installation_notification = 0x6A;
+  IcingDetect icing_detect = 0x76;
+
+  Subtype subtype = 0xC3;
+
+  enum SirenTrigger {
+    NO_SIREN_TRIGGER_INFO = 0;
+    MOTION = 1;
+    ANTIMASKING = 2;
+  }
+
+  oneof subtypes {
+    MotionCamOutdoorTwoFourPhod motion_cam_outdoor_two_four_phod = 0x02;
+  }
+
+  message MotionCamOutdoorTwoFourPhod {
+    ExternalPower external_power = 0x6C;
+    TiltDetected tilt_detected = 0x6D;
+    RadarMode radar_mode = 0x6F;
+    repeated MalfunctionBits malfunction_bits = 0x71;
+    AlertIfMoved alert_if_moved = 0x72;
+    SensitivityMagnetometer sensitivity_magnetometer = 0x73;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_MOTION = 1;
+      SIREN_TRIGGER_ANTIMASKING = 2;
+      SIREN_TRIGGER_TILT = 3;
+    }
+  }
+
+  enum ImageResolution {
+    NO_IMAGE_RESOLUTION_INFO = 0;
+    PX_320_X_176 = 1;
+    PX_640_X_352 = 2;
+  }
+
+  enum SignalQuality {
+    NO_SIGNAL_QUALITY_INFO = 0;
+    VERY_LOW = 1;
+    LOW = 2;
+    MEDIUM = 3;
+    HIGH = 4;
+  }
+
+  enum CamshotAvailabilityMode {
+    NO_CAMSHOT_AVAILABILITY_MODE = 0;
+    NEVER = 1;
+    ALWAYS = 2;
+    ARMED_ONLY = 3;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0;
+    PHOD = 1;
+    SUBTYPE_TWO_FOUR_PHOD = 2;
+  }
+
+  enum ExternalPower {
+    EXTERNAL_POWER_UNSPECIFIED = 0;
+    EXTERNAL_POWER_ABSENT = 1;
+    EXTERNAL_POWER_PRESENT = 2;
+  }
+
+  enum TiltDetected {
+    TILT_DETECTED_UNSPECIFIED = 0;
+    TILT_DETECTED_NOT_DETECTED = 1;
+    TILT_DETECTED_DETECTED = 2;
+  }
+
+  enum RadarMode {
+    RADAR_MODE_UNSPECIFIED = 0;
+    RADAR_MODE_NORMAL = 1;
+    RADAR_MODE_ALWAYS_ON = 2;
+  }
+
+  enum MalfunctionBits {
+    MALFUNCTION_BITS_UNSPECIFIED = 0;
+    MALFUNCTION_BITS_ANTIMASKING_CALIBRATION_ERROR = 1;
+    MALFUNCTION_BITS_PIR_SENSOR_ERROR = 2;
+    MALFUNCTION_BITS_MICROWAVE_SENSOR_CALIBRATION_ERROR = 3;
+    MALFUNCTION_BITS_FAT_ERROR = 4;
+    MALFUNCTION_BITS_OVB_COMMUNICATION_ERROR = 5;
+    MALFUNCTION_BITS_ALS_NOT_CALIBRATED = 6;
+    MALFUNCTION_BITS_MICROWAVE_SENSOR_MALFUNCTION = 7;
+    MALFUNCTION_BITS_MAGNETOMETER_ERROR = 8;
+  }
+
+  enum AlertIfMoved {
+    ALERT_IF_MOVED_UNSPECIFIED = 0;
+    ALERT_IF_MOVED_DISABLED = 1;
+    ALERT_IF_MOVED_ENABLED = 2;
+  }
+
+  enum SensitivityMagnetometer {
+    SENSITIVITY_MAGNETOMETER_UNSPECIFIED = 0;
+    SENSITIVITY_MAGNETOMETER_NORMAL = 1;
+    SENSITIVITY_MAGNETOMETER_HIGH = 2;
+  }
+
+  enum DeviceInstallation {
+    DEVICE_INSTALLATION_UNSPECIFIED = 0;
+    DEVICE_INSTALLATION_OK = 1;
+    DEVICE_INSTALLATION_INCORRECT = 2;
+  }
+
+  enum IncorrectDeviceInstallationNotification {
+    INCORRECT_DEVICE_INSTALLATION_NOTIFICATION_UNSPECIFIED = 0;
+    INCORRECT_DEVICE_INSTALLATION_NOTIFICATION_DONT_NOTIFY = 1;
+    INCORRECT_DEVICE_INSTALLATION_NOTIFICATION_NOTIFY = 2;
+  }
+
+  enum IcingDetect {
+    ICING_DETECT_UNSPECIFIED = 0;
+    ICING_DETECT_DISABLED = 1;
+    ICING_DETECT_ENABLED = 2;
+  }
+
+  message CompanyPhotoOnDemandAccess {
+    oneof availability_type {
+      NotAllowed not_allowed = 20;
+      AllowedAlways allowed_always = 21;
+      AllowedWhenArmed allowed_when_armed = 22;
+      ForbiddenUntilArmed forbidden_until_armed = 23;
+      AllowedAfterAlarm allowed_after_alarm = 24;
+    }
+
+    message NotAllowed {}
+    message AllowedAlways {}
+    message AllowedWhenArmed {}
+    message ForbiddenUntilArmed {}
+    message AllowedAfterAlarm {
+      google.protobuf.Timestamp capture_photo_available_until = 1;
+      google.protobuf.UInt32Value configured_time_to_capture_photo_minutes = 2;
+    }
+  }
+}

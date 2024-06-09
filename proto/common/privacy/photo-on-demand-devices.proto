@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.common.privacy;
+
+option swift_prefix = "";
+option java_package = "systems.ajax.a911.grpc.v1.common.privacy";
+
+message PhotoOnDemandDevices {
+  repeated PhotoOnDemandDevice devices = 1;
+}
+
+message PhotoOnDemandDevice {
+  string device_id = 1;
+  DeviceType device_type = 2;
+
+  enum DeviceType {
+    DEVICE_TYPE_UNSPECIFIED = 0;
+    DEVICE_TYPE_MOTION_CAM = 1;
+    DEVICE_TYPE_MOTION_CAM_OUTDOOR = 2;
+    DEVICE_TYPE_MOTION_CAM_PHOD = 3;
+    DEVICE_TYPE_MOTION_CAM_OUTDOOR_PHOD = 4;
+    DEVICE_TYPE_MOTION_CAM_PHOD_FIBRA = 5;
+    DEVICE_TYPE_MOTION_CAM_OUTDOOR_TWO_FOUR_PHOD = 6;
+    DEVICE_TYPE_MOTION_CAM_HD = 7;
+  }
+}

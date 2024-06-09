@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package systems.ajax.api.desktop.v2.common.hub;
+
+option java_package = "systems.ajax.api.desktop.v2.common.hub";
+option java_multiple_files = true;
+
+message FirmwareId {
+  string fw_version = 1;
+  int32 device_type = 2;
+  int32 device_subtype = 3;
+  string device_hw_version = 4;
+  int32 device_band = 5;
+}

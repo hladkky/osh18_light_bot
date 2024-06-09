@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.common;
+
+option java_package = "systems.ajax.a911.grpc.v1.common";
+option java_multiple_files = true;
+
+message Decimal {
+  int32 scale = 3001;
+  bytes unscaledBytes = 3002;
+}

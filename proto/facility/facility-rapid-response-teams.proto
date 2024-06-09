@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option swift_prefix = "";
+option java_package = "systems.ajax.a911.grpc.facility.v1";
+option java_multiple_files = true;
+
+message FacilityRapidResponseTeams {
+    string facility_id = 1;
+    uint64 version = 2;
+    repeated Team primary_teams = 3;
+    repeated Team secondary_teams = 4;
+
+    message Team {
+        string id = 1;
+        string code = 2;
+        string name = 3;
+        bool active = 4;
+        string logo_id = 5;
+    }
+}

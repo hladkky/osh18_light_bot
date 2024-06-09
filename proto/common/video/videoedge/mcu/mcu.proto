@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package systems.ajax.api.desktop.v2.common.video.videoedge.mcu;
+
+import "v1/hub/main/device/common_device.proto";
+import "v1/hub/main/device/motion_cam_video_base.proto";
+import "v2/common/hub/device/common/battery_charged_state.proto";
+import "v2/common/hub/device/common/device_transmition_power_mode.proto";
+import "v2/common/hub/device/common/jeweller_connection_state.proto";
+
+option java_package = "systems.ajax.api.desktop.v2.common.video.videoedge.mcu";
+option java_multiple_files = true;
+
+message Mcu {
+  // [required]
+  BatteryStatus battery_status = 1;
+
+  a911.grpc.v1.hub.main.MotionCamVideoBase.ExternalPower external_power_state = 2;
+
+  McuState mcu_state = 3;
+
+  BackupChannelInfo backup_channel_info = 4;
+
+  message BatteryStatus {
+    a911.grpc.v1.hub.main.MotionCamVideoBase.BatteryState battery_state = 1;
+    common.hub.device.common.BatteryChargedState battery_charged_state = 2;
+  }
+
+  enum McuState {
+    MCU_STATE_UNSPECIFIED = 0;
+    MCU_STATE_FIRMWARE_UPGRADE_IN_PROGRESS = 1;
+    MCU_STATE_OK = 2;
+    MCU_STATE_FAILED = 3;
+  }
+
+  message BackupChannelInfo {
+    common.hub.device.common.JewellerConnectionState jeweller_connection_state = 1;
+    a911.grpc.v1.hub.main.CommonDevicePart.DeviceSignalLevel jeweller_signal_quality = 2;
+    a911.grpc.v1.hub.main.MotionCamVideoBase.DataChannelState data_channel_connection_state = 3;
+    a911.grpc.v1.hub.main.MotionCamVideoBase.SignalQuality data_channel_signal_quality = 4;
+    common.hub.device.common.DeviceTransmitionPowerMode device_transmition_power_mode = 5;
+    uint32 arm_delay_seconds = 6;
+    uint32 alarm_delay_seconds = 7;
+    uint32 night_mode_arm_delay_seconds = 8;
+    uint32 night_mode_alarm_delay_seconds = 13;
+    a911.grpc.v1.hub.main.CommonDevicePart.ArmingMode device_arming_mode = 14;
+  }
+}

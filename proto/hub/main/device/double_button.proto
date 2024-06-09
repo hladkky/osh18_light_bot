@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "v1/hub/main/device/common_device.proto";
+
+message DoubleButton {
+  CommonDevicePart common_part = 1000;
+
+  repeated SirenTrigger siren_triggers = 0x2E;
+  Brightness brightness = 0x31;
+  string associated_user_id = 0x34;
+
+  Subtype subtype = 0xC3;
+
+  enum SirenTrigger {
+    NO_SIREN_TRIGGER_INFO = 0;
+    SECURITY_BUTTON = 1;
+  }
+
+  enum Brightness {
+    NO_BRIGHTNESS_INFO = 0;
+    OFF = 1;
+    LOW = 2;
+    HIGH = 4;
+  }
+
+  enum Subtype {
+    NO_SUBTYPE = 0;
+  }
+}

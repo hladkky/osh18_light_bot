@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+option java_generic_services = true;
+
+message TroubledDevices { // 3 type in the HtS
+  repeated TroubleDevice trouble_devices = 1;
+
+  message TroubleDevice {
+    string source_hex_id = 1;
+    string source_type = 2;
+    string source_name = 3;
+    optional string hub_name = 4; // may be empty
+    string text = 5;
+
+    optional string room_id = 6;
+    optional string room_name = 7;
+  }
+}

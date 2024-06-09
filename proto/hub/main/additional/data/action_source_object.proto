@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+import "v1/hub/main/object_subtype.proto";
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message ActionSourceObject {// 13 type in the HtS
+  string object_hex_id = 1;
+  string object_name = 2;
+  string object_type = 3;
+  string object_subtype = 4;
+}

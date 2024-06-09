@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "v1/hub/main/device/common_device.proto";
+import "google/protobuf/timestamp.proto";
+
+message Button {
+    CommonDevicePart common_part = 1000;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    ButtonMode button_mode = 0x31;
+    string associated_user_id = 0x32;
+    Brightness brightness = 0x33;
+    FalsePressFilter false_press_filter = 0x35;
+    CustomAlarmType custom_alarm_type = 0x37;
+    BatteryPing battery_ping = 0x38;
+    google.protobuf.Timestamp last_update_time = 0x39;
+    repeated EventSetting event_settings = 0x41;
+    BatteryPingStatus battery_ping_status = 0x42;
+
+    Subtype subtype = 0xC3;
+
+    enum SirenTrigger {
+        NO_SIREN_TRIGGER_INFO = 0;
+        SECURITY_BUTTON = 1;
+    }
+
+    enum ButtonMode {
+        NO_BUTTON_MODE_INFO = 0;
+        PANIC_BUTTON = 1;
+        SMART_BUTTON = 2;
+        INTERCONNECT_DELAY = 3;
+    }
+
+    enum Brightness {
+        NO_BRIGHTNESS_INFO = 0;
+        OFF = 1;
+        LOW = 2;
+        HIGH = 4;
+    }
+
+    enum FalsePressFilter {
+        NO_FALSE_PRESS_FILTER_INFO = 0;
+        DISABLED = 1;
+        LONG_PUSH = 2;
+        DOUBLE_CLICK = 3;
+    }
+
+    enum CustomAlarmType {
+        NO_CUSTOM_ALARM_TYPE = 0;
+        BURGLARY = 1;
+        FIRE = 2;
+        MEDICAL = 3;
+        PANIC = 4;
+        GAS = 5;
+        RESERVED = 6;
+        MALFUNCTION = 7;
+        LEAK = 8;
+        SERVICE = 9;
+    }
+
+    enum BatteryPing {
+        BATTERY_PING_UNSPECIFIED = 0;
+        BATTERY_PING_DISABLED = 1;
+        BATTERY_PING_ENABLED = 2;
+    }
+
+    enum EventSetting {
+        EVENT_SETTINGS_UNSPECIFIED = 0;
+        EVENT_SETTINGS_PINGS_FAILED_EVENT_EN = 1;
+    }
+
+    enum BatteryPingStatus {
+        BATTERY_PING_STATUS_UNSPECIFIED = 0;
+        BATTERY_PING_STATUS_OK = 1;
+        BATTERY_PING_STATUS_NOT_OK = 2;
+    }
+
+    enum Subtype {
+        NO_SUBTYPE = 0;
+        BUTTON_S = 1;
+    }
+}

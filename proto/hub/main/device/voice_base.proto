@@ -1,0 +1,104 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+
+import "v1/hub/main/device/common_device.proto";
+
+message VoiceBase {
+  CommonDevicePart common_part = 1000;
+
+  Subtype subtype = 0xC3;
+
+  ChannelState vorf_channel_ok = 0x31;
+  DeviceSignalLevel vorf_channel_signal_quality = 0x32;
+  ExternalPowerState external_power_state = 0x33;
+  CallState call_state = 0x34;
+  BatteryBroken battery_broken = 0x36;
+  Volume volume_speaker = 0x37;
+  repeated Indication indication = 0x38;
+  repeated int32 attached_groups = 0x39;
+  repeated MalfunctionBits malfunction_bits = 0x50;
+
+  oneof subtypes {
+    VoiceModule voice_module = 1;
+    Speakerphone speakerphone = 2;
+  }
+
+  message VoiceModule {
+    VoiceModulePart voice_module_part = 1;
+  }
+
+  message Speakerphone {
+    VoiceModulePart voice_module_part = 1;
+  }
+
+  enum Subtype {
+    SUBTYPE_UNSPECIFIED = 0;
+    SUBTYPE_VOICE_MODULE = 1;
+    SUBTYPE_SPEAKERPHONE = 2;
+  }
+
+  enum ChannelState {
+    CHANNEL_STATE_UNSPECIFIED = 0;
+    CHANNEL_STATE_OFFLINE = 1;
+    CHANNEL_STATE_ONLINE = 2;
+  }
+
+  enum ExternalPowerState {
+    EXTERNAL_POWER_UNSPECIFIED = 0;
+    EXTERNAL_POWER_OFF = 1;
+    EXTERNAL_POWER_ON = 2;
+  }
+
+  enum CallState {
+    CALL_STATE_UNSPECIFIED = 0;
+    CALL_STATE_INACTIVE = 1;
+    CALL_STATE_ACTIVE = 2;
+    CALL_STATE_QUEUE = 3;
+    CALL_STATE_CALL = 4;
+    CALL_STATE_CALLING = 5;
+  }
+
+  enum BatteryBroken {
+    BATTERY_BROKEN_UNSPECIFIED = 0;
+    BATTERY_BROKEN_BATTERY_OK = 1;
+    BATTERY_BROKEN_BROKEN = 2;
+  }
+
+  enum Volume {
+    VOLUME_UNSPECIFIED = 0;
+    VOLUME_QUIET = 1;
+    VOLUME_LOUD = 2;
+    VOLUME_VERY_LOUD = 3;
+  }
+
+  enum DeviceSignalLevel {
+    DEVICE_SIGNAL_LEVEL_UNSPECIFIED = 0;
+    DEVICE_SIGNAL_LEVEL_NO_SIGNAL = 1;
+    DEVICE_SIGNAL_LEVEL_WEAK = 2;
+    DEVICE_SIGNAL_LEVEL_NORMAL = 3;
+    DEVICE_SIGNAL_LEVEL_STRONG = 4;
+  }
+
+  enum MalfunctionBits {
+    MALFUNCTION_BITS_UNSPECIFIED = 0;
+    MALFUNCTION_BITS_MICROPHONE_ERROR = 1;
+    MALFUNCTION_BITS_SOC_ERROR = 2;
+  }
+
+  message Indication {
+    oneof test{
+      bool call_led_enabled = 1;
+    }
+  }
+
+  message VoiceModulePart {
+    ChannelState data_channel_ok = 0x40;
+    DeviceSignalLevel data_channel_signal_quality = 0x41;
+  }
+}

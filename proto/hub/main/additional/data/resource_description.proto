@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+import "google/protobuf/timestamp.proto";
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message ResourceDescription { // type 2 in the hts
+  repeated ResourceLink ordered_resource_links = 1;
+  google.protobuf.Timestamp links_expire_at = 2;
+  optional string initiator_name = 3;
+  Visibility visibility = 4;
+
+  message Visibility {
+    oneof visibility {
+      Whitelist whitelist = 1;
+      AllowedForEveryone allowed_for_everyone = 2;
+    }
+
+    message Whitelist {
+      repeated string allowed_id = 4;
+    }
+
+    message AllowedForEveryone { }
+  }
+
+  message ResourceLink {
+    optional string url = 1;
+    Status status = 2;
+    string file_name = 3;
+
+    enum Status {
+      STATUS_UNSPECIFIED = 0;
+      STATUS_IN_PROGRESS = 1;
+      STATUS_READY = 2;
+      STATUS_FAILED = 3;
+    }
+  }
+}

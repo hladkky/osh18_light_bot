@@ -1,0 +1,137 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "v1/facility/facility-employee-acl.proto";
+import "google/protobuf/empty.proto";
+import "v1/hub/hub-permission.proto";
+import "google/protobuf/duration.proto";
+import "systems/ajax/logging/proto/log_marker.proto";
+import "systems/ajax/logging/proto/formatting_options.proto";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.facility.v1";
+
+service FacilityEmployeeAclService {
+    rpc getFacilitiesPermissionsForEmployee(FacilitiesPermissionsForEmployeeRequest) returns (FacilitiesPermissionsResponse);
+    rpc getEmployeesPermissionForFacility(EmployeesPermissionsForFacilityRequest) returns (EmployeesPermissionsResponse);
+    rpc saveEmployeesPermissionForFacility(UpdatePermissionRequest) returns (EmployeePermission);
+    rpc saveFacilitiesPermissionForEmployee(UpdatePermissionRequest) returns (FacilityPermission);
+    rpc deleteFacilityEmployeePermission(FacilityEmployeePermissionsDeleteRequest) returns (google.protobuf.Empty);
+    rpc getAccessRightsFacility(EmployeesPermissionsForFacilityRequest) returns (AccessRights);
+    rpc streamFacilityPermissionsForEmployees(EmployeesPermissionsForFacilityRequest) returns (stream AccessRights);
+    rpc getDefaultHubPermissionsByRole(google.protobuf.Empty) returns (DefaultHubPermission);
+    rpc requestPermissionForFacilityByEmployee(RequestPermissionForFacilityByEmployeeRequest) returns (google.protobuf.Empty);
+    rpc streamMergedPermissionsForEmployee(EmployeePermissionsForFacilityRequest) returns (stream EmployeePermissionsForFacilityResponse);
+    rpc acceptPermissionRequestForFacility(EmployeePermissionResolutionRequest) returns (google.protobuf.Empty);
+    rpc declinePermissionRequestForFacility(EmployeePermissionResolutionRequest) returns (google.protobuf.Empty);
+    rpc claimHubCompanyPermissionsForEmployeeRequest(ClaimCompanyHubPermissionsForEmployeeRequestRequest) returns (google.protobuf.Empty);
+    rpc claimHubCompanyPermissionsForCompany(ClaimCompanyHubPermissionsForCompanyRequest) returns (google.protobuf.Empty);
+}
+
+message FacilitiesPermissionsForEmployeeRequest {
+    string employee_id = 1 [(log_marker) = LOG_MARKER_EMPLOYEE_ID];
+}
+
+message EmployeesPermissionsForFacilityRequest {
+    string facility_id = 1;
+}
+
+message EmployeePermissionsForFacilityRequest {
+    string facility_id = 1;
+}
+
+message FacilityEmployeePermissionsDeleteRequest {
+    string facility_id = 1;
+    string employee_id = 2 [(log_marker) = LOG_MARKER_EMPLOYEE_ID];
+}
+
+message FacilitiesPermissionsResponse {
+    repeated FacilityPermission facilities_permissions = 1;
+}
+
+message EmployeesPermissionsResponse {
+    repeated EmployeePermission employees_permissions = 1;
+}
+
+message EmployeePermissionsForFacilityResponse {
+    repeated v1.hub.HubPermission company_hub_permissions = 1;
+    google.protobuf.Timestamp permissions_expired_at = 2;
+    CompanyPermissionType company_permission_type = 3;
+    EmployeeAccessType employee_access_type = 4;
+}
+
+message UpdatePermissionRequest {
+    string employee_id = 1 [(log_marker) = LOG_MARKER_EMPLOYEE_ID];
+    string facility_id = 2;
+    google.protobuf.Timestamp expiration_date_to_edit = 3;
+    repeated FacilityEmployeeAcl.Permission permission = 4;
+}
+
+message FacilityPermission {
+    string facility_id = 1;
+    string employee_id = 2 [(log_marker) = LOG_MARKER_EMPLOYEE_ID];
+    string name = 3;
+    string registration_number = 4;
+    repeated FacilityEmployeeAcl.Permission permissions = 5;
+    google.protobuf.Timestamp expiration_edit_date = 6;
+    string hub_id = 7 [(log_marker) = LOG_MARKER_HUB_ID];
+}
+
+message EmployeePermission {
+    string facility_id = 1;
+    string employee_id = 2 [(log_marker) = LOG_MARKER_EMPLOYEE_ID];
+    string first_name = 3 [(hash_value) = true];
+    string last_name = 4 [(hash_value) = true];
+    string email = 5 [(hash_value) = true];
+    repeated FacilityEmployeeAcl.Permission permissions = 6;
+    google.protobuf.Timestamp expiration_edit_date = 7;
+}
+
+message DefaultHubPermission {
+    repeated v1.hub.HubPermission hub_permissions = 1;
+}
+
+message RequestPermissionForFacilityByEmployeeRequest {
+    string facility_id = 1;
+    oneof permissions_type {
+        Permanent permanent = 2;
+        Temporary temporary = 3;
+    }
+}
+
+message EmployeePermissionResolutionRequest {
+    string permission_request_id = 1;
+}
+
+message ClaimCompanyHubPermissionsForEmployeeRequestRequest {
+    string permission_request_id = 1;
+}
+
+message ClaimCompanyHubPermissionsForCompanyRequest {
+    string facility_id = 1;
+    oneof permissions_type {
+        Permanent permanent = 2;
+        Temporary temporary = 3;
+    }
+}
+
+message Permanent {}
+
+message Temporary {
+    google.protobuf.Duration duration = 1;
+}
+
+enum CompanyPermissionType {
+    COMPANY_PERMISSION_TYPE_UNSPECIFIED = 0;
+    COMPANY_PERMISSION_TYPE_DEFAULT = 1;
+    COMPANY_PERMISSION_TYPE_PARTIAL = 2;
+    COMPANY_PERMISSION_TYPE_FULL = 3;
+}
+
+enum EmployeeAccessType {
+    EMPLOYEE_ACCESS_TYPE_UNSPECIFIED = 0;
+    EMPLOYEE_ACCESS_TYPE_EXPIRED = 1;
+    EMPLOYEE_ACCESS_TYPE_PERMANENT = 2;
+    EMPLOYEE_ACCESS_TYPE_VALID = 3;
+}

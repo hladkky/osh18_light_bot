@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package systems.ajax.api.desktop.v2.common.video.privacy;
+
+option java_multiple_files = true;
+option java_package = "systems.ajax.api.desktop.v2.common.video.privacy";
+
+enum ChannelPermission {
+    CHANNEL_PERMISSION_NONE = 0;
+    VIEW_LIVE_STREAM = 1;
+    VIEW_ARCHIVE = 2;
+    PTZ = 3;
+    SOUND = 4;
+}

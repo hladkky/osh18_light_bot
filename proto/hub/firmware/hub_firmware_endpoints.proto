@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.firmware;
+
+option java_package = "systems.ajax.a911.grpc.hub.v1.firmware";
+
+import "v1/hub/firmware/get_firmware_metadata_request.proto";
+import "v1/hub/firmware/start_device_firmware_update_request.proto";
+import "v1/hub/firmware/start_system_firmware_update_request.proto";
+
+service HubFirmwareService {
+  rpc getFirmwareMetadata(GetFirmwareMetadataRequest) returns (GetFirmwareMetadataResponse);
+  rpc startDeviceFirmwareUpdate(StartDeviceFirmwareUpdateRequest) returns (StartDeviceFirmwareUpdateResponse);
+  rpc startSystemFirmwareUpdate(StartSystemFirmwareUpdateRequest) returns (StartSystemFirmwareUpdateResponse);
+}

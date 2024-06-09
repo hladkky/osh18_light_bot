@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package systems.ajax.api.desktop.v2.common.hub;
+
+option java_package = "systems.ajax.api.desktop.v2.common.hub";
+option java_multiple_files = true;
+
+enum HubBoxType {
+  HUB_BOX_TYPE_UNSPECIFIED = 0;
+  HUB_BOX_TYPE_PCB = 1;
+  HUB_BOX_TYPE_CASE_WITH_EXTERNAL_LED = 2;
+  HUB_BOX_TYPE_CASE_C = 3;
+  HUB_BOX_TYPE_CASE_D = 4;
+}

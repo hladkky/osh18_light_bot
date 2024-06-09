@@ -1,0 +1,120 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main";
+option java_multiple_files = true;
+
+import "v1/hub/main/commands.proto";
+import "v1/hub/main/hub.proto";
+import "v1/hub/main/hub_event.proto";
+import "v1/hub/main/hub_for_migration.proto";
+import "v1/hub/main/hub_index.proto";
+import "v1/hub/main/lightweight_hub.proto";
+import "v1/hub/main/privacy_access.proto";
+import "v1/hub/main/unread_events_update.proto";
+import "v1/hub/main/user.proto";
+import "v1/gw/error.proto";
+import "systems/ajax/logging/proto/formatting_options.proto";
+
+message SubscriptionResponse {
+  int64 timestamp_to_drop = 1;
+  repeated User.Permission permissions = 2;
+}
+
+message GetHubForMigrationResponse {
+  oneof response {
+    systems.ajax.a911.grpc.v1.gw.GwError error = 1;
+    HubForMigration hub_for_migration = 2;
+  }
+}
+
+message GetHubResponse {
+  oneof test_oneof {
+    Hub hub = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+}
+
+message GetHubIndexesResponse {
+  oneof test_oneof {
+    HubIndexes hub_indexes = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+}
+
+message HubIndexes {
+  repeated HubIndex hub_index = 1 [(disable_logging) = true];
+}
+
+message GetLightweightHubResponse {
+  oneof test_oneof {
+    LightweightHub lightweight_hub = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+}
+
+message HubUpdatesSubscriptionResponse {
+  oneof test_oneof {
+    systems.ajax.a911.grpc.v1.gw.GwError error = 1;
+    SubscriptionResponse subscription_response = 2;
+  }
+}
+
+message HubCommandResponse {
+  oneof test_oneof {
+    HubCommand.Result result = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+}
+
+message GetHubLogsResponse {
+  oneof test_oneof {
+    HubEvents hub_events = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+
+  message HubEvents {
+    repeated HubEvent hub_events = 1;
+  }
+}
+
+message GetHubInvitesResponse {
+  oneof response_or_error {
+    InvitedUsers invited_users = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+
+  message InvitedUsers {
+    repeated string emails = 1;
+  }
+}
+
+message HubToUserBindingResponse {
+  oneof test_oneof {
+    systems.ajax.a911.grpc.v1.gw.GwError error = 1;
+  }
+}
+
+message GetHubUnreadEventsCountResponse {
+  oneof test_oneof {
+    UnreadEventsUpdate unread_events_count = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+}
+
+message GetPrivacyAccessListResponse {
+  oneof response_or_error {
+    PrivacyAccessList privacy_access_list = 1;
+    systems.ajax.a911.grpc.v1.gw.GwError error = 2;
+  }
+}
+
+message UpdatePrivacyAccessResponse {
+  oneof test_oneof {
+    systems.ajax.a911.grpc.v1.gw.GwError error = 1;
+  }
+}
+
+

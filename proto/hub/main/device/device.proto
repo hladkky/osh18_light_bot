@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "v1/hub/main/device/door_protect.proto";
+import "v1/hub/main/device/motion_protect.proto";
+import "v1/hub/main/device/fire_protect.proto";
+import "v1/hub/main/device/glass_protect.proto";
+import "v1/hub/main/device/leaks_protect.proto";
+import "v1/hub/main/device/motion_protect_curtain.proto";
+import "v1/hub/main/device/motion_protect_curtain_base.proto";
+import "v1/hub/main/device/range_extender.proto";
+import "v1/hub/main/device/combi_protect.proto";
+import "v1/hub/main/device/fire_protect_plus.proto";
+import "v1/hub/main/device/keypad.proto";
+import "v1/hub/main/device/space_control.proto";
+import "v1/hub/main/device/button.proto";
+import "v1/hub/main/device/double_button.proto";
+import "v1/hub/main/device/motion_cam.proto";
+import "v1/hub/main/device/motion_cam_video_base.proto";
+import "v1/hub/main/device/motion_protect_plus.proto";
+import "v1/hub/main/device/door_protect_plus.proto";
+import "v1/hub/main/device/transmitter.proto";
+import "v1/hub/main/device/relay.proto";
+import "v1/hub/main/device/motion_protect_outdoor.proto";
+import "v1/hub/main/device/street_siren.proto";
+import "v1/hub/main/device/street_siren_double_deck.proto";
+import "v1/hub/main/device/home_siren.proto";
+import "v1/hub/main/device/keypad_plus.proto";
+import "v1/hub/main/device/socket.proto";
+import "v1/hub/main/device/wall_switch.proto";
+import "v1/hub/main/device/universal_device.proto";
+
+import "v1/hub/main/device/wire_input.proto";
+import "v1/hub/main/device/wire_siren.proto";
+import "v1/hub/main/device/yavir_access_control.proto";
+import "v1/hub/main/device/access_key.proto";
+import "v1/hub/main/device/multi_transmitter.proto";
+import "v1/hub/main/device/multi_transmitter_fibra.proto";
+import "v1/hub/main/device/wire_input_mt.proto";
+import "v1/hub/main/device/keypad_combi.proto";
+import "v1/hub/main/device/dual_curtain_outdoor.proto";
+import "v1/hub/main/device/access_card.proto";
+import "v1/hub/main/device/motion_cam_outdoor.proto";
+import "v1/hub/main/device/keypad_base.proto";
+
+import "v1/hub/main/device/door_protect_fibra.proto";
+import "v1/hub/main/device/motion_protect_fibra.proto";
+import "v1/hub/main/device/glass_protect_fibra.proto";
+import "v1/hub/main/device/combi_protect_fibra.proto";
+import "v1/hub/main/device/keypad_fibra.proto";
+import "v1/hub/main/device/motion_protect_plus_fibra.proto";
+import "v1/hub/main/device/door_protect_plus_fibra.proto";
+import "v1/hub/main/device/street_siren_fibra.proto";
+import "v1/hub/main/device/home_siren_fibra.proto";
+import "v1/hub/main/device/range_extender2.proto";
+import "v1/hub/main/device/vhf_bridge.proto";
+import "v1/hub/main/device/socket_base.proto";
+import "v1/hub/main/device/light_switch.proto";
+import "v1/hub/main/device/life_quality.proto";
+import "v1/hub/main/device/water_stop.proto";
+import "v1/hub/main/device/fire_protect2_base.proto";
+import "v1/hub/main/device/switch_base.proto";
+import "v1/hub/main/device/motion_cam_fibra_base.proto";
+import "v1/hub/main/device/line_fibra_base.proto";
+import "v1/hub/main/device/relay_fibra_base.proto";
+import "v1/hub/main/device/transmitter_fibra_base.proto";
+import "v1/hub/main/device/voice_base.proto";
+import "v1/hub/main/device/seismo_protect_fibra_base.proto";
+
+import "v1/hub/main/device/hub_device.proto";
+
+message Device {
+    oneof test_oneof {
+        DoorProtect door_protect = 0x01;
+        MotionProtect motion_protect = 0x02;
+        FireProtect fire_protect = 0x03;
+        GlassProtect glass_protect = 0x04;
+        LeaksProtect leak_protect = 0x05;
+        MotionProtectCurtain motion_protect_curtain = 0x06;
+        RangeExtender range_extender = 0x07;
+        CombiProtect combi_protect = 0x08;
+        FireProtectPlus fire_protect_plus = 0x09;
+        Keypad keypad = 0x0A;
+        SpaceControl space_control = 0x0B;
+        Button button = 0x0C;
+        MotionCam motion_cam = 0x0D;
+        MotionProtectPlus motion_protect_plus = 0x0E;
+        DoorProtectPlus door_protect_plus = 0x0F;
+        UniversalDevice universal_device = 0x10;
+        Transmitter transmitter = 0x11;
+        Relay relay = 0x12;
+        MotionProtectOutdoor motion_protect_outdoor = 0x13;
+        StreetSiren street_siren = 0x14;
+        HomeSiren home_siren = 0x15;
+        MotionCamOutdoor motion_cam_outdoor = 0x18;
+        KeypadPlus keypad_plus = 0x19;
+        DualCurtainOutdoor dual_curtain_outdoor = 0x1A;
+        StreetSirenDoubleDeck street_siren_double_deck = 0x1B;
+        MultiTransmitter multi_transmitter = 0x1C;
+        MultiTransmitterFibra multi_transmitter_fibra = 0x7C;
+        WireInputMt wire_input_mt = 0x1D;
+        Socket socket = 0x1E;
+        WallSwitch wall_switch = 0x1F;
+
+        WireInput wire_input = 0x26;
+        WireSiren wire_siren = 0x27;
+        YavirAccessControl yavir_access_control = 0x28;
+        AccessKey access_key = 0x29;
+        AccessCard access_card = 0x2E;
+
+        HubDevice hub = 0x21;
+
+        DoubleButton double_button = 0x42;
+        KeypadCombi keypad_combi = 0x43;
+        LightSwitch light_switch = 0x44;
+        VhfBridge vhf_bridge = 0x45;
+        RangeExtender2 range_extender2 = 0x46;
+        SocketBase socket_base = 0x4C;
+        LifeQuality life_quality = 0x47;
+        WaterStop water_stop = 0x48;
+        FireProtect2Base fire_protect2_base = 0x4D;
+        KeypadBase keypad_base = 0x41;
+        MotionProtectCurtainBase motion_protect_curtain_base = 0x4E;
+        SwitchBase switch_base = 0x4F;
+        VoiceBase voice_base = 0x54;
+        MotionCamVideoBase motion_cam_video_base = 0x55;
+
+        DoorProtectFibra door_protect_fibra = 0x61;
+        MotionProtectFibra motion_protect_fibra = 0x62;
+        GlassProtectFibra glass_protect_fibra = 0x64;
+        CombiProtectFibra combi_protect_fibra = 0x68;
+        KeypadFibra keypad_fibra = 0x6A;
+        MotionProtectPlusFibra motion_protect_plus_fibra = 0x6E;
+        DoorProtectPlusFibra door_protect_plus_fibra = 0x6F;
+        StreetSirenFibra street_siren_fibra = 0x74;
+        HomeSirenFibra home_siren_fibra = 0x75;
+        MotionCamFibraBase motion_cam_fibra_base = 0x6D;
+        LineFibraBase line_fibra_base = 0x76;
+        RelayFibraBase relay_fibra_base = 0x72;
+        TransmitterFibraBase transmitter_fibra_base = 0x71;
+
+        SeismoProtectFibraBase seismo_protect_fibra_base = 0x7D;
+    }
+}

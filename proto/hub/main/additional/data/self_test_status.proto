@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message SelfTestStatus {
+  repeated DefectedSensor defected_sensors = 1;
+
+  enum DefectedSensor { // 16 type in the HtS
+    DEFECTED_SENSOR_UNSPECIFIED = 0;
+    DEFECTED_SENSOR_ACCELEROMETER = 1;
+    DEFECTED_SENSOR_MAGNETOMETER = 2;
+    DEFECTED_SENSOR_REED = 3;
+    DEFECTED_SENSOR_PIR = 4;
+    DEFECTED_SENSOR_MICROWAVE = 5;
+    DEFECTED_SENSOR_MASKING = 6;
+    DEFECTED_SENSOR_SEISMIC = 7;
+  }
+}

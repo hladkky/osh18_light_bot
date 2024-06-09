@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+import "v1/hub/main/device/common_device.proto";
+
+option java_multiple_files = true;
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option swift_prefix = "Systems";
+
+message MotionCamVideoBase {
+  CommonDevicePart common_part = 1000;
+
+  repeated SirenTrigger siren_triggers = 0x2E;
+
+  AlwaysActiveMode always_active_mode = 0x32;
+
+  SignalQuality signal_quality = 0x3f;
+
+  DataChannelState data_channel_state = 0x43;
+
+  ExternalPower external_power = 0x47;
+
+  BatteryState battery_state = 0x48;
+
+  BatteryTemperatureState battery_temperature_state = 0x49;
+
+  int64 motion_scenario_bits = 0x86;
+
+  Subtype subtype = 0xC3;
+
+  oneof subtypes {
+    MotionCamVideoDoorbell motion_cam_video_doorbell = 1;
+  }
+
+  message MotionCamVideoDoorbell {
+    MotionCamVideoDoorbellPart motion_cam_video_doorbell_part = 0x1000;
+  }
+
+  message MotionCamVideoDoorbellPart {
+    IntrusionMode intrusion_mode = 0x58;
+
+    ArmedMode armed_mode = 0x59;
+  }
+
+  enum SirenTrigger {
+    SIREN_TRIGGER_UNSPECIFIED = 0;
+    SIREN_TRIGGER_MOTION = 1;
+  }
+
+  enum Subtype {
+    SUBTYPE_UNSPECIFIED = 0;
+    SUBTYPE_DOORBELL = 1;
+  }
+
+  enum AlwaysActiveMode {
+    ALWAYS_ACTIVE_MODE_UNSPECIFIED = 0;
+    ALWAYS_ACTIVE_MODE_INACTIVE = 1;
+    ALWAYS_ACTIVE_MODE_ACTIVE = 2;
+  }
+
+  enum SignalQuality {
+    SIGNAL_QUALITY_UNSPECIFIED = 0;
+    SIGNAL_QUALITY_NO = 1;
+    SIGNAL_QUALITY_WEAK = 2;
+    SIGNAL_QUALITY_NORMAL = 3;
+    SIGNAL_QUALITY_STRONG = 4;
+  }
+
+  enum DataChannelState {
+    DATA_CHANNEL_STATE_UNSPECIFIED = 0;
+    DATA_CHANNEL_STATE_FAILED = 1;
+    DATA_CHANNEL_STATE_OK = 2;
+  }
+
+  enum ExternalPower {
+    EXTERNAL_POWER_UNSPECIFIED = 0;
+    EXTERNAL_POWER_DISABLED = 1;
+    EXTERNAL_POWER_ENABLED = 2;
+  }
+
+  enum BatteryState {
+    BATTERY_STATE_UNSPECIFIED = 0;
+    BATTERY_STATE_OK = 1;
+    BATTERY_STATE_BROKEN = 2;
+  }
+
+  enum BatteryTemperatureState {
+    BATTERY_TEMPERATURE_STATE_UNSPECIFIED = 0;
+    BATTERY_TEMPERATURE_STATE_OK = 1;
+    BATTERY_TEMPERATURE_STATE_OUT_OF_RANGE = 2;
+  }
+
+  enum IntrusionMode {
+    INTRUSION_MODE_UNSPECIFIED = 0;
+    INTRUSION_MODE_SMART_HOME = 1;
+    INTRUSION_MODE_INTRUSION = 2;
+  }
+
+  enum ArmedMode {
+    ARMED_MODE_UNSPECIFIED = 0;
+    ARMED_MODE_DISARMED = 1;
+    ARMED_MODE_ARMED = 2;
+  }
+}

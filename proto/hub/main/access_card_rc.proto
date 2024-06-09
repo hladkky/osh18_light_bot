@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main";
+option java_multiple_files = true;
+
+message AccessCardRc {
+  Rc rc = 1000;
+
+  enum Rc {
+    ADDED = 0;
+    ALREADY_ADDED = 1;
+    CARD_FULL = 2;
+    TIMEOUT = 3;
+    INVALID_CARD = 4;
+    USER_TIMEOUT = 5;
+    NO_ANSWER = 6;
+  }
+}

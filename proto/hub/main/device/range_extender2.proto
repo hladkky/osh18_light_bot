@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+
+import "v1/hub/main/device/common_device.proto";
+
+message RangeExtender2 {
+    CommonDevicePart common_part = 1000;
+
+    google.protobuf.BoolValue externally_powered = 0x31;
+    google.protobuf.BoolValue auto_assign_devices_mode_enabled = 0x38;
+    int32 led_brightness_level = 0x3A;
+    google.protobuf.BoolValue new_firmware_version_available = 0x3B;
+    google.protobuf.Int32Value latest_available_firmware_version = 0x3C;
+    google.protobuf.Int32Value avg_noise_level_value_channel1 = 0x3D;
+    google.protobuf.Int32Value avg_noise_level_value_channel2 = 0x3E;
+    google.protobuf.BoolValue data_channel_ok = 0x49;
+    SignalQuality data_channel_signal_quality = 0x4D;
+    int32 photo_transfer_iterations = 0x4E;
+    RadioLostBadge radio_lost_badge = 0x5E;
+
+    //////////////////
+    // Rex2 (Ethernet)
+    //////////////////
+    Ethernet ethernet = 1100;
+    google.protobuf.BoolValue eth_connection_ok = 0x55;
+    google.protobuf.BoolValue rf_connection_ok = 0x59;
+    string mac_address = 0x5C;
+
+    Subtype subtype = 0xC3;
+
+    enum SignalQuality {
+        NO_SIGNAL_QUALITY_INFO = 0;
+        VERY_LOW = 1;
+        LOW = 2;
+        MEDIUM = 3;
+        HIGH = 4;
+    }
+
+    message Ethernet {
+        bool dhcp = 0x56;
+        string ip = 0x57;
+        string mask = 0x58;
+        string gate = 0x5A;
+        bool enabled = 0x5B;
+    }
+
+    enum RadioLostBadge {
+        RADIO_LOST_BADGE_UNSPECIFIED = 0;
+        RADIO_LOST_BADGE_DISABLE_BADGES = 1;
+        RADIO_LOST_BADGE_ENABLE_BADGES = 2;
+    }
+
+    enum Subtype {
+        NO_SUBTYPE = 0;
+    }
+}

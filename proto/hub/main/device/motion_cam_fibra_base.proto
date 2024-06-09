@@ -1,0 +1,139 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;
+option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+import "v1/hub/main/device/common_device.proto";
+import "v1/hub/main/device/common_fibra.proto";
+
+message MotionCamFibraBase {
+  CommonDevicePart common_part = 1000;
+  CommonFibraPart common_fibra_part = 1001;
+
+  int32 sensitivity = 0x32;
+  AlwaysActive always_active = 0x33;
+  ImageResolution image_resolution = 0x35;
+  int32 number_photos = 0x36;
+  int32 number_alarms_with_photo = 0x37;
+  int32 transfer_iterations = 0x3D;
+  BatteryBroken battery_broken = 0x3F;
+  BatteryCharging battery_charging = 0x40;
+  google.protobuf.Int32Value battery_percents = 0x42;
+  ChargeCurrentId charge_current_id = 0x45;
+  OriginChargeCurrentId origin_charge_current_id = 0x57;
+
+  Subtype subtype = 0xC3;
+
+  oneof subtypes {
+    MotionCamFibra motion_cam_fibra = 1;
+    MotionCamPhodFibra motion_cam_phod_fibra = 2;
+  }
+
+  enum Subtype {
+    SUBTYPE_UNSPECIFIED = 0;
+    SUBTYPE_MOTION_CAM_FIBRA = 0x01;
+    SUBTYPE_MOTION_CAM_PHOD_FIBRA = 0x02;
+  }
+
+  enum AlwaysActive {
+    ALWAYS_ACTIVE_UNSPECIFIED = 0;
+    ALWAYS_ACTIVE_DISABLED = 1;
+    ALWAYS_ACTIVE_ENABLED = 2;
+  }
+
+  enum ImageResolution {
+    IMAGE_RESOLUTION_UNSPECIFIED = 0;
+    IMAGE_RESOLUTION_160_X_120 = 1;
+    IMAGE_RESOLUTION_320_X_240 = 2;
+    IMAGE_RESOLUTION_640_X_480 = 3;
+  }
+
+  enum BatteryBroken {
+    BATTERY_BROKEN_UNSPECIFIED = 0;
+    BATTERY_BROKEN_IN_PLACE = 1;
+    BATTERY_BROKEN_TORN_OFF = 2;
+  }
+
+  enum BatteryCharging {
+    BATTERY_CHARGING_UNSPECIFIED = 0;
+    BATTERY_CHARGING_DISABLED = 1;
+    BATTERY_CHARGING_ENABLED = 2;
+  }
+
+  message MotionCamFibra {
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_MOTION = 1;
+    }
+  }
+
+  message MotionCamPhodFibra {
+    int32 number_photos_on_demand = 0x53;
+    CamshotAvailabilityMode camshot_availability_mode = 0x54;
+    CamshotAvailableToSomeone camshot_available_to_someone = 0x55;
+    CompanyPhotoOnDemandAccess company_photo_on_demand_access = 0x1001;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+
+    enum SirenTrigger {
+      SIREN_TRIGGER_UNSPECIFIED = 0;
+      SIREN_TRIGGER_MOTION = 1;
+    }
+  }
+
+  // Changed enum's naming because desktop uses these names for phod functionality
+  enum CamshotAvailabilityMode {
+    NO_CAMSHOT_AVAILABILITY_MODE = 0;
+    NEVER = 1;
+    ALWAYS = 2;
+    ARMED_ONLY = 3;
+  }
+
+  enum CamshotAvailableToSomeone {
+    CAMSHOT_AVAILABLE_TO_SOMEONE_UNSPECIFIED = 0;
+    CAMSHOT_AVAILABLE_TO_SOMEONE_DISABLED = 1;
+    CAMSHOT_AVAILABLE_TO_SOMEONE_ENABLED = 2;
+  }
+
+  enum ChargeCurrentId {
+    CHARGE_CURRENT_ID_UNSPECIFIED = 0;
+    CHARGE_CURRENT_ID_CANNOT_CHARGE_IN_CURRENT_PLACE = 1;
+    CHARGE_CURRENT_ID_MINIMUM = 2;
+    CHARGE_CURRENT_ID_AVERAGE = 3;
+    CHARGE_CURRENT_ID_MAXIMUM = 4;
+  }
+
+  enum OriginChargeCurrentId {
+    ORIGIN_CHARGE_CURRENT_ID_UNSPECIFIED = 0;
+    ORIGIN_CHARGE_CURRENT_ID_CANNOT_CHARGE_IN_CURRENT_PLACE = 1;
+    ORIGIN_CHARGE_CURRENT_ID_MINIMUM = 2;
+    ORIGIN_CHARGE_CURRENT_ID_AVERAGE = 3;
+    ORIGIN_CHARGE_CURRENT_ID_MAXIMUM = 4;
+  }
+
+  message CompanyPhotoOnDemandAccess {
+    oneof availability_type {
+      NotAllowed not_allowed = 20;
+      AllowedAlways allowed_always = 21;
+      AllowedWhenArmed allowed_when_armed = 22;
+      ForbiddenUntilArmed forbidden_until_armed = 23;
+      AllowedAfterAlarm allowed_after_alarm = 24;
+    }
+
+    message NotAllowed {}
+    message AllowedAlways {}
+    message AllowedWhenArmed {}
+    message ForbiddenUntilArmed {}
+    message AllowedAfterAlarm {
+      google.protobuf.Timestamp capture_photo_available_until = 1;
+      google.protobuf.UInt32Value configured_time_to_capture_photo_minutes = 2;
+    }
+  }
+}

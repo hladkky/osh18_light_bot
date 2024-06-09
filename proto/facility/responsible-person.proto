@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "systems/ajax/logging/proto/formatting_options.proto";
+
+option swift_prefix = "";
+option java_package = "systems.ajax.a911.grpc.facility.v1";
+option java_multiple_files = true;
+
+message ResponsiblePerson {
+    string id = 1;
+    uint64 version = 2;
+    string facility_id = 3;
+    uint32 index = 4;
+    string first_name = 5 [(hash_value) = true];
+    string last_name = 6 [(hash_value) = true];
+    bool notify_on_issues = 7;
+    string address_line = 8;
+    repeated PhoneNumber phone_numbers = 9;
+    repeated EmailAddress email_addresses = 10;
+    bool deleted = 11;
+
+    message PhoneNumber {
+        string number = 1 [(hash_value) = true];
+    }
+
+    message EmailAddress {
+        string email = 1 [(hash_value) = true];
+    }
+}
+
+message ResponsiblePersonsList {
+    repeated ResponsiblePerson responsible_persons = 1;
+}

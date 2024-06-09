@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message EndpointInfo { // 0E type in th HtS
+  Endpoint target = 1;
+  string name = 2;
+
+  enum Endpoint {
+    ENDPOINT_UNSPECIFIED = 0;
+    ENDPOINT_LIGHT_SWITCH_BUTTON_1 = 1;
+    ENDPOINT_LIGHT_SWITCH_BUTTON_2 = 2;
+    ENDPOINT_FOUR_CHANNELS_RELAY_FIBRA_CHANNEL_1 = 3;
+    ENDPOINT_FOUR_CHANNELS_RELAY_FIBRA_CHANNEL_2 = 4;
+    ENDPOINT_FOUR_CHANNELS_RELAY_FIBRA_CHANNEL_3 = 5;
+    ENDPOINT_FOUR_CHANNELS_RELAY_FIBRA_CHANNEL_4 = 6;
+    ENDPOINT_TRANSMITTER_FIBRA_FOUR_CHANNELS_CHANNEL_1 = 7;
+    ENDPOINT_TRANSMITTER_FIBRA_FOUR_CHANNELS_CHANNEL_2 = 8;
+    ENDPOINT_TRANSMITTER_FIBRA_FOUR_CHANNELS_CHANNEL_3 = 9;
+    ENDPOINT_TRANSMITTER_FIBRA_FOUR_CHANNELS_CHANNEL_4 = 10;
+  }
+}
+

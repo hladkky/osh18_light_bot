@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main.additional.data;
+
+option java_package = "systems.ajax.a911.grpc.v1.hub.main.additional.data";
+option java_multiple_files = true;
+
+message DisplayGroups { // 4 type in the HtS
+  repeated Group display_event_groups = 1;
+
+  message Group {
+    // 8-character hex
+    string group_id = 1;
+    string group_name = 2;
+  }
+}

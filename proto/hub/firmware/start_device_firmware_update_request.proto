@@ -1,0 +1,75 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.firmware;
+
+import "google/protobuf/empty.proto";
+import "systems/ajax/logging/proto/log_marker.proto";
+
+option java_package = "systems.ajax.a911.grpc.hub.v1.firmware";
+option java_multiple_files = true;
+
+message StartDeviceFirmwareUpdateRequest {
+  string hub_id = 1 [(log_marker) = LOG_MARKER_HUB_ID];
+  string device_id = 2;
+}
+
+message StartDeviceFirmwareUpdateResponse {
+  oneof response {
+    Success success = 1;
+    Failure failure = 2;
+  }
+
+  message Success {}
+
+  message Failure {
+    string message = 100;
+
+    oneof error {
+      google.protobuf.Empty illegal_argument = 1;
+      HubIllegalStateError hub_illegal_state = 2;
+      google.protobuf.Empty hub_offline = 3;
+      google.protobuf.Empty update_not_found = 4;
+      google.protobuf.Empty permission_denied = 5;
+    }
+
+    message HubIllegalStateError {
+      RejectionReason rejection_reason = 1;
+
+      oneof details {
+        Source source = 2;
+      }
+
+      message Source {
+        string device_hex_id = 1;
+        string device_type = 2;
+      }
+
+      enum RejectionReason {
+        REJECTION_REASON_UNSPECIFIED = 0;
+        REJECTION_REASON_HUB_SCAN = 1;
+        REJECTION_REASON_HUB_PWR_TEST = 2;
+        REJECTION_REASON_DEV_BUSY = 3;
+        REJECTION_REASON_DFU_IN_PROGRESS = 4;
+        REJECTION_REASON_RADIOTEST = 5;
+        REJECTION_REASON_DEV_ZONE_TEST = 6;
+        REJECTION_REASON_CARD_PROCESS = 7;
+        REJECTION_REASON_ARMED = 8;
+        REJECTION_REASON_EXIT_TIMER = 9;
+        // REJECTION_REASON_HUB_POWER = 10; deprecated
+        REJECTION_REASON_ROUTE = 11;
+        REJECTION_REASON_DEV_OFFLINE = 12;
+        REJECTION_REASON_EXT_POWER = 13;
+        REJECTION_REASON_DEV_ALWAYS_ACTIVE = 14;
+        REJECTION_REASON_NOT_SUPPORTED = 15;
+        REJECTION_REASON_BUSES_PROBLEM = 16;
+        REJECTION_REASON_IWH_OBJECTS_LIMIT_ERROR = 17;
+        REJECTION_REASON_IWH_TEST_IN_PROGRESS = 18;
+        REJECTION_REASON_RING_PROBLEM = 19;
+        REJECTION_REASON_RING_UNREGISTERED = 20;
+        REJECTION_REASON_RING_DISCONNECTED = 21;
+        REJECTION_REASON_ACTIVE_CALL = 22;
+      }
+    }
+  }
+}
+

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main.device";
+option java_multiple_files = true;
+
+import "v1/hub/main/device/common_device.proto";
+
+message MotionProtectPlus {
+    CommonDevicePart common_part = 1000;
+
+    repeated SirenTrigger siren_triggers = 0x2E;
+    int32 sensitivity = 0x32;
+    bool always_active = 0x33;
+
+    Subtype subtype = 0xC3;
+
+    oneof subtypes {
+        MotionProtectSPlus motion_protect_s_plus = 0x500;
+    }
+
+    enum SirenTrigger {
+        NO_SIREN_TRIGGER_INFO = 0;
+        MOTION = 1;
+    }
+
+    enum Subtype {
+        NO_SUBTYPE = 0;
+        MOTION_PROTECT_S_PLUS = 1;
+    }
+
+    message MotionProtectSPlus {
+        bool fast_tamper = 0x71;
+    }
+}

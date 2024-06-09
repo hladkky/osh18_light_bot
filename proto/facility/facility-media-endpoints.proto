@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.facility.v1";
+
+import "google/protobuf/empty.proto";
+import "v1/image/image.proto";
+
+import "v1/facility/facility-media.proto";
+
+service FacilityMediaService {
+    rpc streamMedia (GetFacilityMediaRequest) returns (stream FacilityMedia);
+
+    rpc createMedia (FacilityMedia) returns (FacilityMedia);
+    rpc updateMedia (FacilityMedia) returns (FacilityMedia);
+    rpc deleteMedia (DeleteFacilityMediaRequest) returns (google.protobuf.Empty);
+
+    /*
+     * Important: "facility" parameter should be passed into metadata map inside ImageChunk.LastClunk
+     */
+    rpc uploadMedia (stream ImageChunk) returns (ImageMetadataResponse);
+    rpc getFacilityMediaImage (GetFacilityMediaImageRequest) returns (ImageMetadataResponse);
+}
+
+message GetFacilityMediaRequest {
+    string facility_id = 1;
+}
+
+message DeleteFacilityMediaRequest {
+    string facility_id = 1;
+    string id = 2;
+}
+
+message GetFacilityMediaImageRequest {
+    string facility_id = 1;
+    string id = 2;
+}

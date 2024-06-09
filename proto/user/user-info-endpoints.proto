@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "v1/company/company.proto";
+import "v1/company/employee.proto";
+import "systems/ajax/logging/proto/log_marker.proto";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.user.v1";
+
+service UserInfoService {
+  rpc streamUserCompanies (UserCompaniesInfoRequest) returns (stream UserCompaniesInfoResponse);
+}
+
+message UserCompaniesInfoRequest {
+  Employee.ComplexRole complex_role = 1;
+}
+
+message UserCompaniesInfoResponse {
+  repeated CompanyInfo companies_info = 1;
+}
+
+message CompanyInfo {
+  string company_id = 1 [(log_marker) = LOG_MARKER_COMPANY_ID];
+  string company_name = 2;
+  Company.CompanyLogo company_logo = 3;
+  Company.PrivacyOverrideManagementAuthorizationStatus privacy_override_management_authorization_status = 4;
+}

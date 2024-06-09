@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+import "systems/ajax/logging/proto/log_marker.proto";
+
+option swift_prefix = "";
+option java_package = "systems.ajax.a911.grpc.company.v1";
+option java_multiple_files = true;
+
+message CompanySettings {
+  string id = 1;
+  uint64 version = 2;
+  string company_id = 3 [(log_marker) = LOG_MARKER_COMPANY_ID];
+  IncidentGenerationSettings incident_generation_settings = 4;
+  OptionStatus cloudApiSettings = 5;
+  GlobalFacilityPermissionSettings facility_permission_settings = 6;
+  QrUsageSettings qr_usage_settings = 7;
+  MaintenanceReportSettings maintenance_report_settings = 8;
+  HubEventGeneratingIncidentSettings hub_event_generating_incidents_settings = 9;
+  MonitoringSettings monitoring_settings = 10;
+  AccountNumberSettings account_number_required_settings = 11;
+  JournalSettings journal_settings = 12;
+  AccessConfirmationSettings access_confirmation_settings = 13;
+
+  google.protobuf.Timestamp created_date = 100;
+  google.protobuf.Timestamp last_modified_date = 101;
+}
+
+message IncidentGenerationSettings {
+  OptionStatus operator_disconnected = 1;
+  OptionStatus unverified_login = 2;
+}
+
+message GlobalFacilityPermissionSettings {
+  OptionStatus full_access = 1;
+}
+
+message QrUsageSettings {
+  bool deny_qr_usage = 1;
+}
+
+message SurveillanceMediaSettings {
+  int32 b2b_surveillance_ttl_in_days = 1;
+}
+
+message MaintenanceReportSettings {
+  OptionStatus report_enabled = 1;
+}
+
+message HubEventGeneratingIncidentSettings {
+  OptionStatus power_failure = 1;
+}
+
+message MonitoringSettings {
+  OptionStatus monitoring_state = 1;
+}
+
+message AccountNumberSettings {
+  OptionStatus account_number_required = 1;
+}
+
+message JournalSettings {
+  int32 auto_refresh_seconds = 1;
+}
+
+message AccessConfirmationSettings {
+  OptionStatus auto_access_confirmation = 1;
+}
+
+enum OptionStatus {
+  UNSPECIFIED_STATUS = 0;
+  ON = 1;
+  OFF = 2;
+}

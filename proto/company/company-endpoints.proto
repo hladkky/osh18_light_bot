@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+import "v1/company/company.proto";
+import "v1/image/image.proto";
+import "systems/ajax/logging/proto/log_marker.proto";
+
+option swift_prefix = "";
+option java_generic_services = true;
+option java_package = "systems.ajax.a911.grpc.company.v1";
+
+service CompanyService {
+    /*
+     * Creates new company.
+     */
+    rpc createCompany (Company) returns (Company);
+    /*
+     * Provides a list of companies that user has access to.
+     */
+    rpc getUserCompanies (google.protobuf.Empty) returns (UserCompaniesResponse);
+
+    /*
+     * Returns a current company info.
+     */
+    rpc getCompany (google.protobuf.Empty) returns (Company);
+
+    /*
+     * Updates the company and returns updated company info.
+     */
+    rpc updateCompany (Company) returns (Company);
+
+    rpc streamUserLightweightCompanies (google.protobuf.Empty) returns (stream UserLightweightCompany);
+
+    rpc uploadCompanyLogo (stream ImageChunk) returns (ImageMetadataResponse);
+}
+
+message UserCompaniesResponse {
+    repeated UserCompany companies = 1;
+}
+
+message UserCompany {
+    string company_id = 1 [(log_marker) = LOG_MARKER_COMPANY_ID];
+    string company_name = 2;
+}
+
+message UserLightweightCompany {
+    string company_id = 1 [(log_marker) = LOG_MARKER_COMPANY_ID];
+    string company_name = 2;
+    Status company_status = 3;
+    uint64 version = 4;
+    bool deleted = 5;
+    string review_comment = 6;
+
+    enum Status {
+        ACCEPTED = 0;
+        REJECTED = 1;
+        WAITING_FOR_VERIFICATION = 2;
+    }
+}

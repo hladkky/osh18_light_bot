@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package systems.ajax.a911.grpc.v1.hub.main;option swift_prefix = "Systems";
+option java_package = "systems.ajax.a911.grpc.v1.main";
+option java_multiple_files = true;
+
+message HubIndex {
+    string id = 1;
+    string name = 2;
+}
