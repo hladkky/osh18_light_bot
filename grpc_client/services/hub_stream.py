@@ -5,13 +5,12 @@ from google.protobuf.message import Message
 from grpc.aio import UnaryStreamCall, AioRpcError
 
 from constants import HUB_ID, SOCKET_ID
-from proto.common.hub.object_type_pb2 import Hub
-from proto.hub.hub_endpoints_pb2 import StreamHubChangesRequest
 from proto.hub.hub_endpoints_pb2_grpc import HubServiceStub
+from proto.hub.hub_endpoints_pb2 import StreamHubChangesRequest
 from proto.hub.main.update_pb2 import Update
 
 
-def _find_socket_in_source(source: Hub):
+def _find_socket_in_source(source: Message):
     filtered = [
         device.socket for device in source.devices
         if device.WhichOneof("test_oneof") == "socket" and device.socket.common_part.id == SOCKET_ID

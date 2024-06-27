@@ -4,8 +4,8 @@ from google.protobuf.empty_pb2 import Empty
 
 from constants import MACHINE_ID
 from proto.auth.auth_endpoints_pb2_grpc import AuthServiceStub
-from proto.login.auth_endpoints_pb2_grpc import AuthServiceStub as NewAuthServiceStub
-from proto.login.auth_pb2 import LoginRequest
+from proto.auth.auth_endpoints_pb2_grpc import AuthServiceStub as NewAuthServiceStub
+from proto.auth.auth_pb2 import LoginRequest
 
 
 class LoginService:
